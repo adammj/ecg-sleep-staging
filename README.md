@@ -1,9 +1,9 @@
 # Expert-level sleep staging using an electrocardiography-only feed-forward neural network
 
-This repository contains all the code and data used in the work (**insert-final-URL**) by Adam M. Jones, Laurent Itti, and Bhavin R. Sheth.
+This repository contains all the code and data used in the work (https://doi.org/10.1016/j.compbiomed.2024.108545) by Adam M. Jones, Laurent Itti, and Bhavin R. Sheth.
 
 If you find this repository helpful, please cite our work:
-> **insert-final-citation**
+> Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024
 
 ---
 
