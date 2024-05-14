@@ -71,7 +71,6 @@ All 6 variables are required for the loader to operate. However, only the first 
 		- 2nd: age (age/100)
 - `midnight_offset`:
 	- A float that represents the first epoch's clock time where 0 = midnight and -1 = 24hr before midnight and 1 = 24hr after midnight.
-**For scoring-only, the following can be random values of the correct shape:**
 - `stages`:
 	- 2D array of floats (size: epoch_count x 1):
 		- Common 0=Wake to 4=REM mapping
