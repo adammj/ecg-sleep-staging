@@ -1,9 +1,9 @@
 # Expert-level sleep staging using an electrocardiography-only feed-forward neural network
 
-This repository contains all the code and data used in the work (https://doi.org/10.1016/j.compbiomed.2024.108545) by Adam M. Jones, Laurent Itti, and Bhavin R. Sheth.
+This repository contains all the code and data used in the work by Adam M. Jones, Laurent Itti, and Bhavin R. Sheth (https://doi.org/10.1016/j.compbiomed.2024.108545).
 
 If you find this repository helpful, please cite our work:
-> Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10/mtfj
+> Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545
 
 ---
 
@@ -36,16 +36,19 @@ We have included the necessary code and weights to exactly duplicate the trainin
 2. **network_weights**
     - The log and network weights of the final trained model.
     - The weights can be loaded using the `"resume_checkpoint"` and `"save_results_and_exit"` keys in the `train_params.json` file.
+3. **real-time_network**
+    - Only the files that are different from the primary model are included here.
+
 
 ## Paper
-All of the code and intermediate results that were used to evaluate the final model is included here.
+All of the code and intermediate results that were used to evaluate the final model are included here.
 
 1. **1_meta_analysis**
-    - The inputs, R code, and output for the meta analysis.
+    - The inputs, R code, and output for the meta-analysis.
 2. **2_intermediate_data**
     - The intermediate data that was created from the various experiments described and plotted in the paper.
 3. **3_figures**
-    - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a pdf and png file for each figure.
+    - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a PDF and PNG file for each figure.
     - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact us if you would like a copy of the file.
 
 ---
