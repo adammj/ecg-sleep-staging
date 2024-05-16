@@ -51,6 +51,10 @@ All of the code and intermediate results that were used to evaluate the final mo
     - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a PDF and PNG file for each figure.
     - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact us if you would like a copy of the file.
 
+
+## Your Own Data
+I'm quickly trying to fill this out with both a Python and MATLAB file for using the code in the `Dataset` directory to process your own data. I'll also create a slightly modified Python file for running the network on a single file to just score the data (a paired down version of `train.py`).
+
 ---
 
 ## Data file description
