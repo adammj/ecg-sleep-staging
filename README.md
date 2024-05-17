@@ -67,19 +67,19 @@ All of the code and intermediate results that were used to evaluate the final mo
 
 ### Your Own Data
 
-Described in the next section
+These are described in the next section.
 
 ---
 
 ## Using this with your own data
 
-I'm quickly trying to fill this out with both a Python and MATLAB file for using the code in the `Dataset` directory to process your own data. I'll also create a slightly modified Python file for running the network on a single file to just score the data (a paired down version of `train.py`).
+I'm working to quickly fill this out with a simplified "interface" for using the code in the `Dataset` directory to process just a single raw file of your own data into the format that the rest of the code is expecting. I'll also create a slightly modified Python file for running the network on a single file to just score the data (a paired down version of `train.py`).
 
 ---
 
 ## Data file description
 
-Each file, representing a single night of sleep (or portion there of), that the network code will ingest, should be provided in HDF5 files with the following `datasets` (the term HDF5 uses for variables) with the extension `.mat` (they are not required to be MATLAB files):
+Each file, representing a single night of sleep (or portion there of), that the network code will ingest, should be provided in HDF5 files with the following `datasets` (the term HDF5 uses for variables):
 
 All 6 variables are required for the loader to operate. However, only the first 4 are necessary to perform inference (just scoring, instead of training). For scoring-only, the remaining 2 variables could be provided as arrays of random numbers of the correct dimensions.
 
