@@ -1,16 +1,28 @@
 # Expert-level sleep staging using an electrocardiography-only feed-forward neural network
 
-This repository contains all the code and data used in the work by Adam M. Jones, Laurent Itti, and Bhavin R. Sheth (https://doi.org/10.1016/j.compbiomed.2024.108545).
+This repository contains all the code and data used in the work by Adam M. Jones, Laurent Itti, and Bhavin R. Sheth (<https://doi.org/10.1016/j.compbiomed.2024.108545>).
 
 If you find this repository helpful, please cite our work:
 > Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545
 
 ---
 
+There are 4 sections to this README:
+
+1. [Folder contents](#folder-contents)
+2. [Using this with your own data](#using-this-with-your-own-data)
+3. [Data file description](#data-file-description)
+4. [Requirements](#requirements)
+
+---
+
+## Folder contents
+
 Below is a description of the contents of each folder.
 
-## Dataset
-The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although we do not have permission to share the source data, they are available at the National Sleep Research Resource (https://sleepdata.org/). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), we have provided a listing of all of the file names, so that others can train, validate, and test on the exact same dataset we used.
+### Dataset
+
+The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although we do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), we have provided a listing of all of the file names, so that others can train, validate, and test on the exact same dataset we used.
 
 1. **dataset_files**
     - `main_sets.xlsx` contains the listing for the train, validation, and testing sets 
@@ -18,7 +30,8 @@ The study included training, validating, and testing on a dataset of 4,000 recor
 2. **dataset_preprocessing**
     - Contains all of the pre-processing code that was used
 
-## Network and Training
+### Network and Training
+
 We have included the necessary code and weights to exactly duplicate the training and testing of the final model.
 
 1. **network_and_training_code**
@@ -40,7 +53,8 @@ We have included the necessary code and weights to exactly duplicate the trainin
     - Only the files that are different from the primary model are included here.
 
 
-## Paper
+### Paper
+
 All of the code and intermediate results that were used to evaluate the final model are included here.
 
 1. **1_meta_analysis**
@@ -51,16 +65,24 @@ All of the code and intermediate results that were used to evaluate the final mo
     - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a PDF and PNG file for each figure.
     - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact us if you would like a copy of the file.
 
+### Your Own Data
 
-## Your Own Data
+Described in the next section
+
+---
+
+## Using this with your own data
+
 I'm quickly trying to fill this out with both a Python and MATLAB file for using the code in the `Dataset` directory to process your own data. I'll also create a slightly modified Python file for running the network on a single file to just score the data (a paired down version of `train.py`).
 
 ---
 
 ## Data file description
+
 Each file, representing a single night of sleep (or portion there of), that the network code will ingest, should be provided in HDF5 files with the following `datasets` (the term HDF5 uses for variables) with the extension `.mat` (they are not required to be MATLAB files):
 
 All 6 variables are required for the loader to operate. However, only the first 4 are necessary to perform inference (just scoring, instead of training). For scoring-only, the remaining 2 variables could be provided as arrays of random numbers of the correct dimensions.
+
 - `epoch_count`:
 	- An integer count of the number of 30-sec epochs.
 - `ecgs`:
@@ -87,6 +109,7 @@ All 6 variables are required for the loader to operate. However, only the first 
 ---
 
 ## Requirements
+
 The toolbox and package requirements to run the code are as follows:
 
 - MATLAB (2023a)
