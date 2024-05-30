@@ -7,7 +7,7 @@ If you find this repository helpful, please cite our work:
 
 ---
 
-There are 4 sections to this README:
+There are four sections to this README:
 
 1. [Folder contents](#folder-contents)
 2. [Using this with your own data](#using-this-with-your-own-data)
@@ -22,7 +22,7 @@ Below is a description of the contents of each folder.
 
 ### Dataset
 
-The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although we do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), we have provided a listing of all of the file names, so that others can train, validate, and test on the exact same dataset we used.
+The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although we do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), we have provided a listing of all of the file names so that others can train, validate, and test the exact same dataset we used.
 
 1. **dataset_files**
     - `main_sets.xlsx` contains the listing for the train, validation, and testing sets 
@@ -32,11 +32,11 @@ The study included training, validating, and testing on a dataset of 4,000 recor
 
 ### Network and Training
 
-We have included the necessary code and weights to exactly duplicate the training and testing of the final model.
+We have included the necessary code and weights to duplicate the training and testing of the final model exactly.
 
 1. **network_and_training_code**
     - A self-contained directory of the code, including:
-	    - `adams.py` (optimizer, citation and source link inside)
+	    - `adams.py` (optimizer, citation, and source link inside)
 	    - `main_sets.xlsx` (duplicate sets file—see above)
 	    - `net_params.json` (network hyperparameters)
 	    - `sleep_support.py` (various support functions)
@@ -73,15 +73,21 @@ These are described in the next section.
 
 ## Using this with your own data
 
-I'm working to quickly fill this out with a simplified "interface" for using the code in the `Dataset` directory to process just a single raw file of your own data into the format that the rest of the code is expecting. I'll also create a slightly modified Python file for running the network on a single file to just score the data (a paired down version of `train.py`).
+While all of the code that was used for everything described in the paper is in the `Dataset` directory, the code was originally designed around processing thousands of files in parallel in specific steps (which I found easier to write in MATLAB at the time).
+
+To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG and filter it (as described in the paper and in the `Data file description` section below). And then use the `train.py` function, with the `train_params.json` set to load the saved checkpoint with `resume_checkpoint` and telling the code to only evaluate setting `save_results_and_exit` to `true`.
+
+Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. I also plan to make it easier to load the checkpoint onto a computer that doesn't have a GPU (it can be done currently but requires some minor tweaks). However, this isn't a priority for me right now. 
+
+But, if you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
 
 ---
 
 ## Data file description
 
-Each file, representing a single night of sleep (or portion there of), that the network code will ingest, should be provided in HDF5 files with the following `datasets` (the term HDF5 uses for variables):
+Each file, representing a single night of sleep (or a portion thereof) that the network code will ingest, should be provided in HDF5 files with the following `datasets` (the term HDF5 uses for variables):
 
-All 6 variables are required for the loader to operate. However, only the first 4 are necessary to perform inference (just scoring, instead of training). For scoring-only, the remaining 2 variables could be provided as arrays of random numbers of the correct dimensions.
+All six variables are required for the loader to operate. However, only the first four are necessary to perform inference (just scoring instead of training). For scoring only, the remaining two variables could be provided as arrays of random numbers of the correct dimensions.
 
 - `epoch_count`:
 	- An integer count of the number of 30-sec epochs.
@@ -116,7 +122,7 @@ The toolbox and package requirements to run the code are as follows:
     - Parallel Computing Toolbox (7.8)
     - Signal Processing Toolbox (9.2)
 - Python
-    - Provided in requirements.txt file.
+    - Provided in the `requirements.txt` file.
 - R (4.3.2)
     - DescTools (0.99.54)
     - pimeta (1.1.3)
