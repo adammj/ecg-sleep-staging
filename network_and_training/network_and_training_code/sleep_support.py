@@ -1,15 +1,15 @@
 # Copyright (C) 2024  Adam M. Jones
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
 # by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -187,9 +187,14 @@ def return_available_gpu(max_mb_used: int = 1500) -> torch.device:
 def shm_avail_bytes() -> int:
     """get available bytes in /dev/shm  (this is a slow call)"""
     # df defaults to kib
-    return 1024 * int(
-        subprocess.check_output(["df", "/dev/shm"]).split()[10].decode("utf-8")
-    )
+    try:
+        kibytes = int(
+            subprocess.check_output(["df", "/dev/shm"]).split()[10].decode("utf-8")
+        )
+    except:
+        kibytes = 0
+
+    return 1024 * kibytes
 
 
 def check_weights(model: Module) -> None:

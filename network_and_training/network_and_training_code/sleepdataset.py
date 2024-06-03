@@ -1,15 +1,15 @@
 # Copyright (C) 2024  Adam M. Jones
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
 # by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -26,12 +26,11 @@ import h5py as h5
 import numpy as np
 import pandas as pd
 import torch
+from sleep_support import combine_stages, confusion_from_lists, kappa, shm_avail_bytes
+from sleepnet import load_sample_from_file
 from torch import Tensor
 from torch.utils.data import Dataset
 from tqdm import tqdm
-
-from sleep_support import combine_stages, confusion_from_lists, kappa, shm_avail_bytes
-from sleepnet import load_sample_from_file
 
 
 class SleepSubject(object):
@@ -71,7 +70,7 @@ class SleepSubject(object):
         self.predicted_stages = Tensor([])
 
         # try the pickle file first
-        if self.try_to_load_file(True, True):
+        if (pickle_path is not None) and self.try_to_load_file(True, True):
             self.is_pickled = True
         else:
             self.try_to_load_file(False)
@@ -86,10 +85,11 @@ class SleepSubject(object):
 
     def full_file_name(self, pickle_version: bool):
         """get the file_name based on the type"""
-        if pickle_version:
+        if pickle_version and (not self.pickle_path is None):
             file_name = self.pickle_path + self.filename + ".pkl"
         else:
             file_name = self.original_path + self.filename + ".mat"
+            file_name = file_name.replace(".mat.mat", ".mat")
         return file_name
 
     def try_to_load_file(self, use_pickled_file: bool, silent_missing: bool = False):
@@ -213,15 +213,32 @@ class SleepDataset(Dataset):
             all_datasets_folder + "dataset_" + str(self.dataset_number) + "_files/"
         )
 
-        # extract the sets file
-        sets_df = pd.read_excel(sets_file)
+        # check if a single file is supposed to be used
+        if "single_datafile" in train_params:
+            datafile_string = train_params["single_datafile"]
 
-        self.filenames: list[str]
-        # adjust the set_type to a tuple, if necessary
-        if set_type == 4:
-            self.filenames = list(sets_df[(sets_df.set == 1) | (sets_df.set == 2)].file)
+            # check if this provides a full path or is a file in the CWD
+            if len(datafile_string.split("/")) == 1:
+                datafile_string = os.getcwd() + "/" + datafile_string
+                datafile_string = datafile_string.replace("//", "/")
+
+            train_params["single_datafile"] = datafile_string
+
+            self.folder = "/".join(datafile_string.split("/")[0:-1]) + "/"
+            self.filenames = [datafile_string.split("/")[-1]]
+
         else:
-            self.filenames = list(sets_df[sets_df.set == set_type].file)
+            # extract the sets file
+            sets_df = pd.read_excel(sets_file)
+
+            self.filenames: list[str]
+            # adjust the set_type to a tuple, if necessary
+            if set_type == 4:
+                self.filenames = list(
+                    sets_df[(sets_df.set == 1) | (sets_df.set == 2)].file
+                )
+            else:
+                self.filenames = list(sets_df[sets_df.set == set_type].file)
 
         # extract the relevant data
 

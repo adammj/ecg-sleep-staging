@@ -663,7 +663,8 @@ def move_tensors_to_device(data_dict: dict, device: torch.device) -> dict:
         data_dict[key] = data_dict[key].to(device, non_blocking=True)
 
     # wait for everything to finish (to get more accurate times)
-    torch.cuda.synchronize()
+    if torch.cuda.is_available():
+        torch.cuda.synchronize()
 
     return data_dict
 

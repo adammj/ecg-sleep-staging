@@ -1,15 +1,15 @@
 # Copyright (C) 2024  Adam M. Jones
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
 # by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -27,14 +27,8 @@ from datetime import timedelta
 import h5py as h5
 import numpy as np
 import torch
-from dataclasses_json import dataclass_json
-from torch import Tensor
-from torch.optim import Optimizer
-from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torch.utils.data import DataLoader
-from tqdm import tqdm
-
 from adams import AdamS
+from dataclasses_json import dataclass_json
 from sleep_support import (
     confusion_from_lists,
     get_json_contents_as_dict,
@@ -48,6 +42,11 @@ from sleep_support import (
 from sleepdataset import SleepDataset
 from sleeploss import SleepLoss
 from sleepnet import SleepNet, move_tensors_to_device, sleepnet_collate
+from torch import Tensor
+from torch.optim import Optimizer
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 #  precision and printing constants
 stats_precision = 3
@@ -197,6 +196,10 @@ class SleepNetExperiment:
 
     def update_device(self) -> None:
         """Update the device used for pytorch."""
+
+        # set default device to cpu
+        device = torch.device("cpu")
+
         # assumes using gpu (find the first with at least enough free memory)
         if torch.cuda.is_available():
             device = return_available_gpu()
@@ -204,10 +207,10 @@ class SleepNetExperiment:
             if device.type == "cuda":
                 torch.cuda.set_device(device)
             else:
-                exit()
+                print("no available gpu found, using cpu")
+
         else:
-            print("no gpu found")
-            exit()
+            print("cuda is not available, using cpu")
 
         print("using device: ", device)
         self.device = device
@@ -241,6 +244,10 @@ class SleepNetExperiment:
     def create_dataloaders(self) -> None:
         """Create the loaders for the datasets."""
         print("create data loaders...")
+
+        # if only saving results, then no workers are necessary
+        if self.train_params["save_results_and_exit"] is True:
+            self.train_params["num_workers"] = 0
 
         # shuffle training loader
         self.train_loader = DataLoader(
@@ -623,7 +630,17 @@ def main():
 
     # arguments: all_datasets_folder
     if len(sys.argv) > 1:
-        train_params["all_datasets_folder"] = str(sys.argv[1])
+        print("has argument")
+        argument_string = str(sys.argv[1])
+        if os.path.isdir(argument_string):
+            train_params["all_datasets_folder"] = argument_string
+        else:
+            if os.path.isfile(argument_string):
+                print(argument_string)
+                train_params["single_datafile"] = argument_string
+            else:
+                print("argument provided is neither a folder nor a file")
+                sys.exit()
 
     # prepare_and_run(train_params, net_params)
     experiment = SleepNetExperiment(train_params, net_params)
