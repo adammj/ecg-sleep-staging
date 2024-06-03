@@ -73,13 +73,26 @@ These are described in the next section.
 
 ## Using this with your own data
 
-While all of the code that was used for everything described in the paper is in the `Dataset` directory, the code was originally designed around processing thousands of files in parallel in specific steps (which I found easier to write in MATLAB at the time).
+Below are all the steps necessary to score sleep on your own ECG data.
 
-To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG and filter it (as described in the paper and in the `Data file description` section below). And then use the `train.py` function, with the `train_params.json` set to load the saved checkpoint with `resume_checkpoint` and telling the code to only evaluate setting `save_results_and_exit` to `true`.
+### data processing
 
-Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. I also plan to make it easier to load the checkpoint onto a computer that doesn't have a GPU (it can be done currently but requires some minor tweaks). However, this isn't a priority for me right now. 
+While all of the code that was used for everything described in the paper are in the `dataset` directory, the code was originally designed around processing thousands of files in parallel in specific steps (which I found easier to write in MATLAB at the time).
+To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG and filter it (as described in the paper and in the `Data file description` section below).
+Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. This code will go in the `data_processing` folder (which currently just has a placeholder file).
 
-But, if you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
+### sleep stage scoring
+
+I have provided a complete folder for both the `primary` and  `real-time` models. They are completely self-contained, and, as a consequence, are duplicates of files inside the `network_and_training` folders. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
+
+To use either model, just run the following from your python environment:
+```
+python train.py your_datafile.mat
+```
+
+The `your_datafile.mat` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.mat` file in the same folder.
+
+If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
 
 ---
 
@@ -87,10 +100,8 @@ But, if you need any assistance, please feel free to contact me (contact details
 
 Each file, representing a single night of sleep (or a portion thereof) that the network code will ingest, should be provided in HDF5 files with the following `datasets` (the term HDF5 uses for variables):
 
-All six variables are required for the loader to operate. However, only the first four are necessary to perform inference (just scoring instead of training). For scoring only, the remaining two variables could be provided as arrays of random numbers of the correct dimensions.
+All five variables are required for the loader to operate. However, only the first three are necessary to perform inference (just scoring instead of training). For scoring only, the remaining two variables could be provided as arrays of random numbers of the correct dimensions.
 
-- `epoch_count`:
-	- An integer count of the number of 30-sec epochs.
 - `ecgs`:
 	- 2D array of floats (size: epoch_count x 7680) 
 	- Where 7680 = 30 x 256Hz.
