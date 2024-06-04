@@ -1,0 +1,18 @@
+# gpu requirements
+# for network only
+#
+# if using conda, after creating the bare environment, run:
+# conda install --yes --file requirements_gpu.txt
+#
+
+python >= 3.12
+pytorch >= 2.3
+numpy
+h5py
+dataclasses-json
+pandas
+tqdm
+
+# additional gpu requirements
+pytorch-cuda=12.1
+gpustat
