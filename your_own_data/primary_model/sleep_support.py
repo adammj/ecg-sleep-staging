@@ -22,10 +22,12 @@ import os
 import subprocess
 
 import torch
-from gpustat import GPUStatCollection
 from torch import Tensor
 from torch.nn import Module
 from torch.optim import Optimizer
+
+if torch.cuda.is_available():
+    from gpustat import GPUStatCollection
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
@@ -164,6 +166,10 @@ def get_json_contents_as_dict(json_filename: str) -> dict:
 
 def return_available_gpu(max_mb_used: int = 1500) -> torch.device:
     """find an available gpu"""
+    if not torch.cuda.is_available():
+        print("cuda is not available, using cpu")
+        return torch.device("cpu")
+
     gpu_index = -1
     gpu_stats = GPUStatCollection.new_query()
     for gpu_index_i in range(torch.cuda.device_count()):
