@@ -3,4 +3,4 @@ plugins:
   - jekyll-remote-theme
 
 title: ECG-only based sleep staging
-description: Expert-level sleep staging using an electrocardiography-only feed-forward neural network
+description: Expert-level sleep staging using an ECG-only neural network
