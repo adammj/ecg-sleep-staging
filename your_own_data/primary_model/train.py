@@ -390,7 +390,7 @@ class SleepNetExperiment:
         confusions = self.eval_set.get_all_subject_confusions().numpy()
         predictions = self.eval_set.get_all_subject_predictions().numpy()
         train_subject_weights = self.train_set.get_all_subject_weights().numpy()
-        with h5.File("results.mat", "w") as file_h:
+        with h5.File("results.h5", "w") as file_h:
             file_h.create_dataset("confusions", data=confusions)
             file_h.create_dataset("predictions", data=predictions)
             file_h.create_dataset("train_subject_weights", data=train_subject_weights)

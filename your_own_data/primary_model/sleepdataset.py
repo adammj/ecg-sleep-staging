@@ -88,8 +88,8 @@ class SleepSubject(object):
         if pickle_version and (not self.pickle_path is None):
             file_name = self.pickle_path + self.filename + ".pkl"
         else:
-            file_name = self.original_path + self.filename + ".mat"
-            file_name = file_name.replace(".mat.mat", ".mat")
+            file_name = self.original_path + self.filename + ".h5"
+            file_name = file_name.replace(".h5.h5", ".h5")
         return file_name
 
     def try_to_load_file(self, use_pickled_file: bool, silent_missing: bool = False):

@@ -34,10 +34,10 @@ There is a folder for each model: `primary` and `real-time`. They are completely
 To use either model, just run the following from your python environment:
 
 ```
-python train.py your_datafile.mat
+python train.py your_datafile.h5
 ```
 
-The `your_datafile.mat` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.mat` file in the same folder.
+The `your_datafile.h5` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.h5` file in the same folder.
 
 If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
 
@@ -105,7 +105,7 @@ A new Cohen's-kappa-correlated loss function was designed for this work, which i
 
 All of the code and intermediate results that were used to evaluate the final model are included here.
 
-0. **data_processing**
+0. **0_data_processing**
    - Contains all of the pre-processing code that was used. As described above, this was written in MATLAB with the goal of processing thousands of files in specific steps. The files can (fairly easily) be modified to process a single file at a time. However, I am working on a streamlined Python version to future users.
 1. **1_meta_analysis**
    - The inputs, R code, and output for the meta-analysis.
@@ -121,11 +121,11 @@ All of the code and intermediate results that were used to evaluate the final mo
 
 The toolbox and package requirements to run the code are as follows:
 
+- Python
+  - I've provided three different `requirements.txt` files, depending on your needs. If you just want to score sleep using one of the models, then you only need to `requirements_cpu.txt` file. However, if you would like to train the model, or otherwise make use of your GPU, then use `requirements_gpu.txt`. Finally, if you want to reproduce the figures from the paper, use `requirements_paper.txt`.
 - MATLAB (2023a)
   - Parallel Computing Toolbox (7.8)
   - Signal Processing Toolbox (9.2)
-- Python
-  - I've provided three different `requirements.txt` files, depending on your needs. If you just want to score sleep using one of the models, then you only need to `requirements_cpu.txt` file. However, if you would like to train the model, or otherwise make use of your GPU, then use `requirements_gpu.txt`. Finally, if you want to reproduce the figures from the paper, use `requirements_paper.txt`.
 - R (4.3.2)
   - DescTools (0.99.54)
   - pimeta (1.1.3)
