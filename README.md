@@ -11,8 +11,9 @@ If you find this repository helpful, please cite our work:
 1. [Sleep scoring your own data](#sleep-scoring-your-own-data)
 2. [Data file description](#data-file-description)
 3. [Benchmark dataset](#benchmark-dataset)
-4. [Paper replication](#paper-replication)
-5. [Requirements](#requirements)
+4. [Loss function](#loss-function)
+5. [Paper replication](#paper-replication)
+6. [Requirements](#requirements)
 
 ---
 
@@ -78,6 +79,12 @@ The study included training, validating, and testing on a dataset of 4,000 recor
 1. **benchmark_dataset**
    - `main_sets.xlsx` contains the listing for the train, validation, and testing sets
    - `heldout_set.xlsx` contains the listing for the held-out study
+
+---
+
+## Loss function
+
+A new Cohen's-kappa-correlated loss function was designed for this work, which is included in the self-contained model folders. However, its main repository (with looser licensing) is <https://github.com/adammj/loss-functions>.
 
 ---
 
