@@ -13,17 +13,17 @@ Read the paper to find out more (<https://doi.org/10.1016/j.compbiomed.2024.1085
 
 > Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024
 
-# Sleep scoring your own data
+# Repository
 
-Both the primary (after-the-fact) and real-time models are provided in the repository in self-contained folders.
+The repository contains everything you need to do the following:
 
-# Preparing your data
+1. Score your own data
+2. Prepare your data
+3. Use the benchmark dataset
+4. Use the loss function for your own models
+5. Replicate everything in the paper's Methods and Results sections
 
-# Paper replication
-
-# Requirements
-
-I've provided three different `requirements.txt` files, depending on your needs. If you just want to score sleep using one of the models, then you only need to `requirements_cpu.txt` file. However, if you would like to train the model, or otherwise make use of your GPU, then use `requirements_gpu.txt`. Finally, if you want to reproduce the figures from the paper, use `requirements_paper.txt`.
+If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
 
 # Cite
 
