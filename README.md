@@ -1,8 +1,9 @@
-# Expert-level sleep staging using an electrocardiography-only feed-forward neural network
+# Expert-level ECG-only sleep staging
 
 This repository contains all the code and data used in the work by Adam M. Jones, Laurent Itti, and Bhavin R. Sheth (<https://doi.org/10.1016/j.compbiomed.2024.108545>).
 
 If you find this repository helpful, please cite our work:
+
 > Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545
 
 ---
@@ -25,45 +26,44 @@ Below is a description of the contents of each folder.
 The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although we do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), we have provided a listing of all of the file names so that others can train, validate, and test the exact same dataset we used.
 
 1. **dataset_files**
-    - `main_sets.xlsx` contains the listing for the train, validation, and testing sets 
-    - `heldout_set.xlsx` contains the listing for the held-out study
+   - `main_sets.xlsx` contains the listing for the train, validation, and testing sets
+   - `heldout_set.xlsx` contains the listing for the held-out study
 2. **dataset_preprocessing**
-    - Contains all of the pre-processing code that was used
+   - Contains all of the pre-processing code that was used
 
 ### Network and Training
 
 We have included the necessary code and weights to duplicate the training and testing of the final model exactly.
 
 1. **network_and_training_code**
-    - A self-contained directory of the code, including:
-	    - `adams.py` (optimizer, citation, and source link inside)
-	    - `main_sets.xlsx` (duplicate sets file—see above)
-	    - `net_params.json` (network hyperparameters)
-	    - `sleep_support.py` (various support functions)
-	    - `sleepdataset.py` (dataset loader and processing)
-	    - `sleeploss.py` (loss function)
-	    - `sleepnet.py` (network and batch collation)
-	    - `train_params.json` (training hyperparameters)
-	    - `train.py` (main program)
-    - To run, call:  `python train.py`
+   - A self-contained directory of the code, including:
+     - `adams.py` (optimizer, citation, and source link inside)
+     - `main_sets.xlsx` (duplicate sets file—see above)
+     - `net_params.json` (network hyperparameters)
+     - `sleep_support.py` (various support functions)
+     - `sleepdataset.py` (dataset loader and processing)
+     - `sleeploss.py` (loss function)
+     - `sleepnet.py` (network and batch collation)
+     - `train_params.json` (training hyperparameters)
+     - `train.py` (main program)
+   - To run, call: `python train.py`
 2. **network_weights**
-    - The log and network weights of the final trained model.
-    - The weights can be loaded using the `"resume_checkpoint"` and `"save_results_and_exit"` keys in the `train_params.json` file.
+   - The log and network weights of the final trained model.
+   - The weights can be loaded using the `"resume_checkpoint"` and `"save_results_and_exit"` keys in the `train_params.json` file.
 3. **real-time_network**
-    - Only the files that are different from the primary model are included here.
-
+   - Only the files that are different from the primary model are included here.
 
 ### Paper
 
 All of the code and intermediate results that were used to evaluate the final model are included here.
 
 1. **1_meta_analysis**
-    - The inputs, R code, and output for the meta-analysis.
+   - The inputs, R code, and output for the meta-analysis.
 2. **2_intermediate_data**
-    - The intermediate data that was created from the various experiments described and plotted in the paper.
+   - The intermediate data that was created from the various experiments described and plotted in the paper.
 3. **3_figures**
-    - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a PDF and PNG file for each figure.
-    - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact us if you would like a copy of the file.
+   - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a PDF and PNG file for each figure.
+   - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact us if you would like a copy of the file.
 
 ### Your Own Data
 
@@ -83,9 +83,10 @@ Eventually, I will rewrite the pipeline to accommodate the processing of individ
 
 ### sleep stage scoring
 
-I have provided a complete folder for both the `primary` and  `real-time` models. They are completely self-contained, and, as a consequence, are duplicates of files inside the `network_and_training` folders. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
+I have provided a complete folder for both the `primary` and `real-time` models. They are completely self-contained, and, as a consequence, are duplicates of files inside the `network_and_training` folders. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
 
 To use either model, just run the following from your python environment:
+
 ```
 python train.py your_datafile.mat
 ```
@@ -103,25 +104,25 @@ Each file, representing a single night of sleep (or a portion thereof) that the 
 All five variables are required for the loader to operate. However, only the first three are necessary to perform inference (just scoring instead of training). For scoring only, the remaining two variables could be provided as arrays of random numbers of the correct dimensions.
 
 - `ecgs`:
-	- 2D array of floats (size: epoch_count x 7680) 
-	- Where 7680 = 30 x 256Hz.
-	- Network was trained on ECG data:
-		- High-pass filtered (0.5 Hz).
-		- Scaled or clipped to -/+ 1, with 90% of the maximum R waves (or other tallest wave in the heartbeat) within + or - 0.5.
+  - 2D array of floats (size: epoch_count x 7680)
+  - Where 7680 = 30 x 256Hz.
+  - Network was trained on ECG data:
+    - High-pass filtered (0.5 Hz).
+    - Scaled or clipped to -/+ 1, with 90% of the maximum R waves (or other tallest wave in the heartbeat) within + or - 0.5.
 - `demographics`:
-	- 2D array of floats (size: 2 x 1):
-		- 1st: sex (0=female, 1=male)
-		- 2nd: age (age/100)
+  - 2D array of floats (size: 2 x 1):
+    - 1st: sex (0=female, 1=male)
+    - 2nd: age (age/100)
 - `midnight_offset`:
-	- A float that represents the first epoch's clock time where 0 = midnight and -1 = 24hr before midnight and 1 = 24hr after midnight.
+  - A float that represents the first epoch's clock time where 0 = midnight and -1 = 24hr before midnight and 1 = 24hr after midnight.
 - `stages`:
-	- 2D array of floats (size: epoch_count x 1):
-		- Common 0=Wake to 4=REM mapping
-		- All "unscored" epochs should be marked as 0.
+  - 2D array of floats (size: epoch_count x 1):
+    - Common 0=Wake to 4=REM mapping
+    - All "unscored" epochs should be marked as 0.
 - `weights`:
-	- 2D array of floats (size: epoch_count x 1):
-		- 0 (no weight) to 1 (full weight)
-		- All "unscored" epochs should be given a weight of 0.
+  - 2D array of floats (size: epoch_count x 1):
+    - 0 (no weight) to 1 (full weight)
+    - All "unscored" epochs should be given a weight of 0.
 
 ---
 
@@ -130,18 +131,18 @@ All five variables are required for the loader to operate. However, only the fir
 The toolbox and package requirements to run the code are as follows:
 
 - MATLAB (2023a)
-    - Parallel Computing Toolbox (7.8)
-    - Signal Processing Toolbox (9.2)
+  - Parallel Computing Toolbox (7.8)
+  - Signal Processing Toolbox (9.2)
 - Python
-    - Provided in the `requirements.txt` file.
+  - Provided in the `requirements.txt` file.
 - R (4.3.2)
-    - DescTools (0.99.54)
-    - pimeta (1.1.3)
-    - readxl (1.4.3)
+  - DescTools (0.99.54)
+  - pimeta (1.1.3)
+  - readxl (1.4.3)
 
 ---
 
-Copyright (C) 2024  Adam M. Jones
+Copyright (C) 2024 Adam M. Jones
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -150,8 +151,8 @@ by the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
