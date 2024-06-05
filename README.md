@@ -19,17 +19,17 @@ If you find this repository helpful, please cite our work:
 
 ## Sleep scoring your own data
 
-Below are all the steps necessary to score sleep on your own ECG data.
+To get this into the hands of others and in use as soon as possible, there is a separate folder structure just for new and future users (verses documenting what was done for the paper, below).
 
-### data processing
+### Data processing
 
-While all of the code that was used for everything described in the paper are in the `dataset` directory, the code was originally designed around processing thousands of files in parallel in specific steps (which I found easier to write in MATLAB at the time).
+While all of the code that was used for everything described in the paper are in the `dataset` directory, the code was originally designed around processing thousands of files in parallel in specific steps (which was easier to write in MATLAB at the time).
 To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG and filter it (as described in the paper and in the `Data file description` section below).
 Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. This code will go in the `data_processing` folder (which currently just has a placeholder file).
 
-### sleep stage scoring
+### Sleep stage scoring (primary or real-time model)
 
-I have provided a complete folder for both the `primary` and `real-time` models. They are completely self-contained, and, as a consequence, are duplicates of files inside the `network_and_training` folders. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
+There is a folder for each model: `primary` and `real-time`. They are completely self-contained, and, as a consequence, are almost exact duplicates. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
 
 To use either model, just run the following from your python environment:
 
@@ -40,6 +40,18 @@ python train.py your_datafile.mat
 The `your_datafile.mat` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.mat` file in the same folder.
 
 If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
+
+### FYI: description of files inside model folders
+
+- `adams.py` (optimizer, citation, and source link inside)
+- `net_params.json` (network hyperparameters)
+- `sleep_support.py` (various support functions)
+- `sleepdataset.py` (dataset loader and processing)
+- `sleeploss.py` (loss function)
+- `sleepnet.py` (network and batch collation)
+- `train_params.json` (training hyperparameters)
+- `train.py` (main program)
+- `[the name is unique].pt` (the weights for the model)
 
 ---
 
@@ -76,9 +88,10 @@ All five variables are required for the loader to operate. However, only the fir
 
 The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although we do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), we have provided a listing of all of the file names so that others can train, validate, and test the exact same dataset we used.
 
-1. **benchmark_dataset**
-   - `main_sets.xlsx` contains the listing for the train, validation, and testing sets
-   - `heldout_set.xlsx` contains the listing for the held-out study
+### benchmark dataset
+
+- `main_sets.xlsx` contains the listing for the train, validation, and testing sets
+- `heldout_set.xlsx` contains the listing for the held-out study
 
 ---
 
@@ -90,39 +103,10 @@ A new Cohen's-kappa-correlated loss function was designed for this work, which i
 
 ## Paper replication
 
-Below is a description of the contents of each folder.
-
-### Dataset
-
-1. **dataset_preprocessing**
-   - Contains all of the pre-processing code that was used
-
-### Network and Training
-
-We have included the necessary code and weights to duplicate the training and testing of the final model exactly.
-
-1. **network_and_training_code**
-   - A self-contained directory of the code, including:
-     - `adams.py` (optimizer, citation, and source link inside)
-     - `main_sets.xlsx` (duplicate sets file—see above)
-     - `net_params.json` (network hyperparameters)
-     - `sleep_support.py` (various support functions)
-     - `sleepdataset.py` (dataset loader and processing)
-     - `sleeploss.py` (loss function)
-     - `sleepnet.py` (network and batch collation)
-     - `train_params.json` (training hyperparameters)
-     - `train.py` (main program)
-   - To run, call: `python train.py`
-2. **network_weights**
-   - The log and network weights of the final trained model.
-   - The weights can be loaded using the `"resume_checkpoint"` and `"save_results_and_exit"` keys in the `train_params.json` file.
-3. **real-time_network**
-   - Only the files that are different from the primary model are included here.
-
-### Paper
-
 All of the code and intermediate results that were used to evaluate the final model are included here.
 
+0. **data_processing**
+   - Contains all of the pre-processing code that was used. As described above, this was written in MATLAB with the goal of processing thousands of files in specific steps. The files can (fairly easily) be modified to process a single file at a time. However, I am working on a streamlined Python version to future users.
 1. **1_meta_analysis**
    - The inputs, R code, and output for the meta-analysis.
 2. **2_intermediate_data**
