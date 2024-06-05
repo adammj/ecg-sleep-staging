@@ -84,7 +84,7 @@ The study included training, validating, and testing on a dataset of 4,000 recor
 
 ## Loss function
 
-A new Cohen's-kappa-correlated loss function was designed for this work, which is included in the self-contained model folders. However, its main repository (with looser licensing) is <https://github.com/adammj/loss-functions>.
+A new Cohen's-kappa-correlated loss function was designed for this work, which is included in the self-contained model folders. However, its main repository (with looser licensing) is at (<https://github.com/adammj/loss-functions>).
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Cardiosomnography: ECG-only sleep staging"
+title: "Cardiosomnography:<br>ECG-only sleep staging"
 layout: default
 ---
 
