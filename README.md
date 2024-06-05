@@ -23,7 +23,7 @@ To get this into the hands of others and in use as soon as possible, there is a 
 
 ### Data processing
 
-While all of the code that was used for everything described in the paper are in the `dataset` directory, the code was originally designed around processing thousands of files in parallel in specific steps (which was easier to write in MATLAB at the time).
+While all of the code that was used for everything described in the paper is in the `paper` folder, that code was originally designed around processing thousands of files in parallel in specific steps (which was easier to write in MATLAB at the time).
 To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG and filter it (as described in the paper and in the `Data file description` section below).
 Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. This code will go in the `data_processing` folder (which currently just has a placeholder file).
 
