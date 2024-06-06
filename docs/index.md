@@ -5,7 +5,7 @@ layout: default
 
 # Introduction
 
-It is now possible to score sleep, at equivalent performance, to expert human-scored polysomonography (PSG) using only electrocardiography (ECG). Our method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
+It is now possible to score sleep at equivalent performance to expert human-scored polysomonography (PSG) using only electrocardiography (ECG). Our method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
 
 Our intention is that cardiosomnography (CSG), or a sleep study conducted with ECG only, could take expert-level sleep studies outside the confines of clinics and laboratories and into realistic settings. It makes less-expensive, higher-quality studies accessible to a broader community, enabling improved sleep research and more personalized, accessible sleep-related healthcare interventions.
 
@@ -15,7 +15,7 @@ Read the paper to find out more (<https://doi.org/10.1016/j.compbiomed.2024.1085
 
 # Repository
 
-The repository contains everything you need to do the following:
+The [GitHub repository](https://github.com/adammj/ecg-sleep-staging) contains everything you need to do the following:
 
 1. Score your own data
 2. Prepare your data
