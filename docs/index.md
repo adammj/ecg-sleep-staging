@@ -1,13 +1,13 @@
 ---
-title: "Cardiosomnography: <br>ECG-only sleep staging"
+title: "Cardiosomnography: <br>ECG/EKG-only sleep staging"
 layout: default
 ---
 
 # Introduction
 
-It is now possible to score sleep at equivalent performance to expert human-scored polysomonography (PSG) using only electrocardiography (ECG). Our method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
+It is now possible to score sleep at equivalent performance to expert human-scored polysomonography (PSG) using only electrocardiography (ECG/EKG). Our method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
 
-Our intention is that cardiosomnography (CSG), or a sleep study conducted with ECG only, could take expert-level sleep studies outside the confines of clinics and laboratories and into realistic settings. It makes less-expensive, higher-quality studies accessible to a broader community, enabling improved sleep research and more personalized, accessible sleep-related healthcare interventions.
+Our intention is that cardiosomnography (CSG), or a sleep study conducted with ECG/EKG only, could take expert-level sleep studies outside the confines of clinics and laboratories and into realistic settings. It makes less-expensive, higher-quality studies accessible to a broader community, enabling improved sleep research and more personalized, accessible sleep-related healthcare interventions.
 
 Read the paper to find out more (<https://doi.org/10.1016/j.compbiomed.2024.108545>):
 

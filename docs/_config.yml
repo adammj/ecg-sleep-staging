@@ -2,5 +2,5 @@ remote_theme: pages-themes/cayman@v0.2.0
 plugins:
   - jekyll-remote-theme
 
-title: "Cardiosomnography: <br>ECG-only sleep staging"
-description: Expert-level sleep staging using an ECG-only neural network
+title: "Cardiosomnography: <br>ECG/EKG-only sleep staging"
+description: Expert-level ECG/EKG-only sleep staging
