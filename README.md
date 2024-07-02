@@ -1,4 +1,4 @@
-# Expert-level ECG/EKG-only sleep staging
+# Expert-level ECG-only sleep staging
 
 This repository contains all the code and data used in our paper (<https://doi.org/10.1016/j.compbiomed.2024.108545>).
 
@@ -24,7 +24,7 @@ To get this into the hands of others and in use as soon as possible, there is a 
 ### Data processing
 
 While all of the code that was used for everything described in the paper is in the `paper` folder, that code was originally designed around processing thousands of files in parallel in specific steps (which was easier to write in MATLAB at the time).
-To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG/EKG and filter it (as described in the paper and in the `Data file description` section below).
+To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG/EKG data and filter it (as described in the paper and in the `Data file description` section below).
 Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. This code will go in the `data_processing` folder (which currently just has a placeholder file).
 
 ### Sleep stage scoring (primary or real-time model)
@@ -64,7 +64,7 @@ All five variables are required for the loader to operate. However, only the fir
 - `ecgs`:
   - 2D array of floats (size: epoch_count x 7680)
   - Where 7680 = 30 x 256Hz.
-  - Network was trained on ECG/EKG data:
+  - Network was trained on ECG data:
     - High-pass filtered (0.5 Hz).
     - Scaled or clipped to -/+ 1, with 90% of the maximum R waves (or other tallest wave in the heartbeat) within + or - 0.5.
 - `demographics`:
