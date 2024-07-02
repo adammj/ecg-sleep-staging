@@ -26,6 +26,8 @@ Our intention is for CSG to take expert-level sleep studies outside the confines
 
 # Code Repository
 
+<a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
+
 The [GitHub repository](https://github.com/adammj/ecg-sleep-staging) contains everything you need to do the following:
 
 1. Prepare your data
