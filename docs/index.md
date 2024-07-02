@@ -15,7 +15,7 @@ We suggest that everyone interested should read the [paper](<https://authors.els
 
 <div style="text-align: center;">
 <b>Meta-analysis comparison of PSG- and CSG-based sleep staging:</b>
-<img src="assets/meta-analysis.png" alt="Meta-analysis comparison of PSG- and CSG-based sleep staging"></img>
+<img src="assets/meta-analysis.png" alt="Meta-analysis comparison of PSG- and CSG-based sleep staging">
 </div>
 
 The meta-analysis of 11 papers on PSG sleep staging, demonstrate the on-par results of CSG with the current gold standard. See our [paper](<https://authors.elsevier.com/a/1j58I2OYd7gUK>) for more details.
