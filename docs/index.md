@@ -11,7 +11,10 @@ We propose the term "**cardiosomnography**" (**CSG**) for any sleep study that c
 
 We demonstrate in our recent [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) that it is now possible to score sleep at equivalent performance to expert human-scored polysomnography (PSG) using only ECG. Our method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
 
+<div style="text-align: center;">
+Meta-analysis comparison of polysomnography and cardiosomnography sleep staging:
 <img src="assets/meta-analysis.png" alt="">
+</div>
 
 Read the [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) to find out more [1].
 
