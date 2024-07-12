@@ -59,12 +59,12 @@ If you need any assistance, please feel free to contact me (contact details prov
 
 Each file, representing a single night of sleep (or a portion thereof) that the network code will ingest, should be provided in HDF5 files with the following `datasets` (the term HDF5 uses for variables):
 
-All five variables are required for the loader to operate. However, only the first three are necessary to perform inference (just scoring instead of training). For scoring only, the remaining two variables could be provided as arrays of random numbers of the correct dimensions.
+If just performing inference (only scoring data, and not training), then only the first three variables are required for the loader to operate. However, all five variables are necessary if training the network.
 
 - `ecgs`:
   - 2D array of floats (size: epoch_count x 7680)
   - Where 7680 = 30 x 256Hz.
-  - Network was trained on ECG data:
+  - Network was trained on raw ECG data that had been filtered and scaled:
     - High-pass filtered (0.5 Hz).
     - Scaled or clipped to -/+ 1, with 90% of the maximum R waves (or other tallest wave in the heartbeat) within + or - 0.5.
 - `demographics`:
@@ -73,11 +73,11 @@ All five variables are required for the loader to operate. However, only the fir
     - 2nd: age (age/100)
 - `midnight_offset`:
   - A float that represents the first epoch's clock time where 0 = midnight and -1 = 24hr before midnight and 1 = 24hr after midnight.
-- `stages`:
+- `stages` (only required for training):
   - 2D array of floats (size: epoch_count x 1):
-    - Common 0=Wake to 4=REM mapping
+    - Stage mapping: 0=Wake, 1=N1/S1, 2=N2/S2, 3=N3/S3/S4, 4=REM.
     - All "unscored" epochs should be marked as 0.
-- `weights`:
+- `weights` (only required for training):
   - 2D array of floats (size: epoch_count x 1):
     - 0 (no weight) to 1 (full weight)
     - All "unscored" epochs should be given a weight of 0.

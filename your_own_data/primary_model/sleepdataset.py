@@ -45,6 +45,7 @@ class SleepSubject(object):
         dataset_number: int,
         cache_during_creation: bool,
         stage_count: int,
+        is_training: bool = True,
     ):
         super(SleepSubject, self).__init__()
 
@@ -53,6 +54,7 @@ class SleepSubject(object):
         self.original_path = original_path  # original
         self.pickle_path = pickle_path  # pickled
         self.is_pickled = False
+        self.is_training = is_training
 
         # create pickle_path directory, if doesn't exist
         if pickle_path is not None and not os.path.isdir(pickle_path):
@@ -139,7 +141,7 @@ class SleepSubject(object):
         else:
             file_name = self.full_file_name(False)
             with h5.File(file_name, "r") as file_h:
-                sample = load_sample_from_file(file_h)
+                sample = load_sample_from_file(file_h, self.is_training)
                 # make sure sample can be located
                 sample.update({"subject_filename": self.filename})
 
@@ -273,6 +275,7 @@ class SleepDataset(Dataset):
                         self.dataset_number,
                         cache_during_creation,
                         self.stage_count,
+                        self.is_training
                     )
                 ]
 

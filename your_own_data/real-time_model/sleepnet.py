@@ -43,21 +43,26 @@ from torch.nn.init import normal_, xavier_normal_
 from sleep_support import check_weights, pad_tensor
 
 
-def load_sample_from_file(file_h: h5.File) -> dict:
+def load_sample_from_file(file_h: h5.File, is_training: bool = True) -> dict:
     """Load sample from a file. Kept with sleep net, in case there are future changes"""
 
     # extract all data. from_numpy creates the necessary copies
-    epoch_count = torch.LongTensor([file_h["weights"].shape[0]])  # type: ignore
+    epoch_count = torch.LongTensor([file_h["ecgs"].shape[0]])  # type: ignore
     ecgs = torch.Tensor(file_h["ecgs"][()])  # type: ignore
 
     # do not expand demographics yet, to make cache smaller
     demographics = torch.Tensor(file_h["demographics"][()]).squeeze()  # type: ignore
-
-    # loss requires long for stages
-    stages = torch.LongTensor(file_h["stages"][()])  # type: ignore
-    weights = torch.Tensor(file_h["weights"][()])  # type: ignore
-
     midnight_offset = torch.Tensor(file_h["midnight_offset"][()]).squeeze()  # type: ignore
+
+    if is_training:
+        # loss requires long for stages
+        stages = torch.LongTensor(file_h["stages"][()])  # type: ignore
+        weights = torch.Tensor(file_h["weights"][()])  # type: ignore
+    else:
+        # if not training, the variables may not exist in the file
+        # and should not be used anyways
+        stages = torch.zeros((ecgs.shape[0]), dtype=epoch_count.dtype)
+        weights = torch.ones((ecgs.shape[0]), dtype=ecgs.dtype)
 
     # create the sample after closing the file
     sample = {
