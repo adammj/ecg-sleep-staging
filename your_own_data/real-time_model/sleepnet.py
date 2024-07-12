@@ -136,9 +136,9 @@ def sleepnet_collate(batch: list) -> dict:
         night = night.unsqueeze(1)
         night = torch.randn_like(night)  # to remove the relative night variable
 
-        # create midnight (-1=noon, 0=midnight, 1=noon) vectors
+        # create midnight (0=midnight, +/-1=+/-24hrs) vectors
         midnight_vec = torch.tensor(range(0, sample["epoch_count"]))
-        midnight_vec = midnight_vec / ((3600 / 30) * 12) + sample["midnight_offset"]
+        midnight_vec = midnight_vec / ((3600 / 30) * 24) + sample["midnight_offset"]
         midnight_vec = midnight_vec.unsqueeze(1)
 
         # concat the the demographics, with night and midnight

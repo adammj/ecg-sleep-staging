@@ -243,10 +243,6 @@ class SleepDataset(Dataset):
                 self.filenames = list(sets_df[sets_df.set == set_type].file)
 
         # extract the relevant data
-
-        # self.midnight_offset = set_data_matrix[
-        #     np.isin(set_data_matrix[:, 2], set_type), 14
-        # ]
         self.count = len(self.filenames)  # count returned from the matrix
 
         if (max_samples > 0) and (max_samples < self.count):
