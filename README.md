@@ -43,7 +43,7 @@ If you need any assistance, please feel free to contact me (contact details prov
 
 ### FYI: description of files inside model folders
 
-- `adams.py` (optimizer, citation, and source link inside)
+- `adams.py` (optimizer, original source here: [zeke-xie/stable-weight-decay-regularization](<https://github.com/zeke-xie/stable-weight-decay-regularization>))
 - `net_params.json` (network hyperparameters)
 - `sleep_support.py` (various support functions)
 - `sleepdataset.py` (dataset loader and processing)
