@@ -1,8 +1,8 @@
 # Expert-level ECG-only sleep staging
 
-This repository contains all the code and data used in our paper (<https://doi.org/10.1016/j.compbiomed.2024.108545>).
+This repository contains all the code and data used in the paper (<https://doi.org/10.1016/j.compbiomed.2024.108545>).
 
-If you find this repository helpful, please cite our work:
+If you find this repository helpful, please cite the paper:
 
 > Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545
 
@@ -86,7 +86,7 @@ If just performing inference (only scoring data, and not training), then only th
 
 ## Benchmark dataset
 
-The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although we do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), we have provided a listing of all of the file names so that others can train, validate, and test the exact same dataset we used.
+The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although I do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), I have provided a listing of all of the file names so that others can train, validate, and test the exact same dataset I used.
 
 ### benchmark dataset
 

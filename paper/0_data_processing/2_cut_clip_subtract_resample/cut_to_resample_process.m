@@ -354,7 +354,7 @@ disp('done')
 % 
 %     elseif strcmp(ch_list{1}, 'ECG1') & strcmp(ch_list{2}, 'ECG2')
 %         % preferred case
-%         % sometimes there is an extra 'ECG' channel, but we'll assume labels
+%         % sometimes there is an extra 'ECG' channel, but will assume labels
 %         % are correct
 %         channel_1 = data.ECG1.data;
 %         channel_2 = data.ECG2.data;

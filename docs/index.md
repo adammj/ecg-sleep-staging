@@ -9,16 +9,16 @@ We propose the term "**cardiosomnography**" (**CSG**) for any sleep study that c
 
 # Sleep Staging with CSG
 
-We demonstrate in our recent [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) [[1](#citations)] that it is now possible to score sleep at equivalent performance to expert human-scored polysomnography (PSG) using only ECG. Our method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
+We demonstrate in our recent [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) [[1](#citations)] that it is now possible to score sleep at equivalent performance to expert human-scored polysomnography (PSG) using only ECG. The method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
 
-We suggest that everyone interested should read the [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) to find out more. (Make sure to also check out the supplemental—I had too many results for the main text.) However, here's a brief summary figure of our meta-analysis results:
+We suggest that everyone interested should read the [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) to find out more. (Make sure to also check out the supplemental, as I had too many results for the main text.) However, here's a brief summary figure of the meta-analysis results:
 
 <div style="text-align: center;">
 <b>Meta-analysis comparison of PSG- and CSG-based sleep staging:</b>
 <img src="assets/meta-analysis.png" alt="Meta-analysis comparison of PSG- and CSG-based sleep staging">
 </div>
 
-The meta-analysis of 11 papers on PSG sleep staging, demonstrate the on-par results of CSG with the current gold standard. See our [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) for more details.
+The meta-analysis of 11 papers on PSG sleep staging, demonstrate the on-par results of CSG with the current gold standard. See the [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) for more details.
 
 # Applications of CSG
 
@@ -38,7 +38,7 @@ If you need any assistance, please feel free to contact me (contact details prov
 
 # References
 
-If you find this repository helpful, please cite our work:
+If you find this repository helpful, please cite the paper:
 
 - [1] [Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545.](<https://doi.org/10.1016/j.compbiomed.2024.108545>)
 
