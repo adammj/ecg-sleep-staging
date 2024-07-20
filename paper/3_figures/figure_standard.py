@@ -114,7 +114,8 @@ def save_figure_files(
     png_transparent: bool = False,
 ):
 
-    assert len(filename) > 0
+    if len(filename) == 0:
+        raise ValueError("filename cannot be empty")
 
     if save_pdf:
         plt.savefig(

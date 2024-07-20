@@ -196,7 +196,8 @@ class SleepDataset(Dataset):
         self.weight_subjects = train_params["weight_subjects"]
 
         # 1=train, 2=validation, 3=test, 4=train+validation
-        assert 1 <= set_type <= 4
+        if set_type not in [1, 2, 3, 4]:
+            raise ValueError("set_type should in [1, 2, 3, 4]")
 
         # shm/pickle folder
         self.shm_folder = "/dev/shm/dataset_" + str(self.dataset_number) + "_pickles/"
@@ -303,7 +304,9 @@ class SleepDataset(Dataset):
         return self.count
 
     def __getitem__(self, index: int):
-        assert 0 <= index < self.count
+        
+        if index < 0 or index >= self.count:
+            raise ValueError("index must be in [0, self.count)")
 
         t_start = time.perf_counter()
 

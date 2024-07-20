@@ -39,11 +39,15 @@ class SleepLoss(_WeightedLoss):
 
         broken out so that the function can be called with other confusion matrices"""
 
-        # sanity checks
-        assert stage_count >= 2
-        assert confusion.size(0) == stage_count
-        assert confusion.size(0) == confusion.size(1)
-        assert len(torch.where(confusion < 0)[0]) == 0
+        # input checks
+        if stage_count < 2:
+            raise ValueError("stage_count must be >= 2")
+        if confusion.size(0) != stage_count:
+            raise ValueError("each confusion dimension must equal the stage_count")
+        if confusion.size(0) != confusion.size(1):
+            raise ValueError("confusion shape must be square")
+        if len(torch.where(confusion < 0)[0]) != 0:
+            raise ValueError("confusion should contain no negative elements")
 
         # if the confusion matrix is all zeros, return 1.0
         if confusion.sum() == 0:
@@ -67,7 +71,7 @@ class SleepLoss(_WeightedLoss):
         # shift and scale the kappas from range [-1, 1] to the range [0, 1]
         kappas = (kappas + 1) / 2
 
-        # check kappas
+        # sanity check of kappas
         assert len(torch.where(kappas < 0)[0]) == 0
         assert len(torch.where(kappas > 1)[0]) == 0
 

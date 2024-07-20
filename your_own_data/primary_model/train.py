@@ -67,7 +67,8 @@ def seed_init_fn(worker_id: int = 0):
     # added +worker_id so that each worker gets a slightly different seed
 
     global random_seed
-    assert random_seed > 0
+    if random_seed == 0:
+        raise ValueError("random_seed should not be 0")
 
     torch.manual_seed(random_seed + worker_id)  # seeds both cpu and cuda
     np.random.seed(random_seed + worker_id)

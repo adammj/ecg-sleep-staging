@@ -79,7 +79,8 @@ def stage_kappas(confusion: Tensor, weights=None) -> Tensor:
         confusion = confusion * weights
 
     stage_count = confusion.size(0)
-    assert stage_count == confusion.size(1)
+    if stage_count != confusion.size(1):
+        raise ValueError("confusion should be square")
 
     kappas = torch.zeros(stage_count)
     for stage in range(stage_count):
@@ -108,7 +109,8 @@ def kappa(confusion: Tensor, weights=None) -> Tensor:
     if weights is not None:
         confusion = confusion * weights
 
-    assert confusion.size(0) == confusion.size(1)
+    if confusion.size(0) != confusion.size(1):
+        raise ValueError("confusion should be square")
 
     # normalize
     confusion = confusion / confusion.sum()
@@ -233,7 +235,7 @@ def check_weights(model: Module) -> None:
     print(f"  count of zeros: {count_zeros}  ones: {count_ones}")
     print(f"  max weight: {max_value:.4f}  min: {min_value:.4f}")
 
-    # don't train if any zeros
+    # sanity check, don't train if any zeros
     assert count_zeros == 0
 
 
