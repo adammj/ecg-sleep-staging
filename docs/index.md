@@ -38,7 +38,7 @@ If you need any assistance, please feel free to contact me (contact details prov
 
 # ECG Equipment
 
-Unfortunately, there are few commercial ECG recording devices on the market right now (which could record ECG comfortably while asleep). This is an easily solvable problem for any enterprising companies. Be that as it may, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
+Unfortunately, there are few commercial ECG recording devices on the market right now (which could record ECG comfortably while asleep). This is an easily solvable problem for any enterprising company that's interested. Be that as it may, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
 
 - The recording should be of Lead I (limb lead across the heart). See [ECG Lead positioning](https://litfl.com/ecg-lead-positioning/) for the proper locations of the "RA" and "LA" electrodes.
 - The sampling rate should be a minimum of 125 Hz. Higher is better, with the "optimal" rate for the network's input being 256 Hz.
@@ -61,9 +61,9 @@ Additional works cited above:
 ## Primary:
 
 - [NSRR (Twitter/X)](<https://x.com/sleepdatansrr/status/1805564095875498136?s=46>)
-- [NSRR (Sleepdata.org)](<https://sleepdata.org/blog/2024/06/expert-level-sleep-staging-using-an-electrocardiography-only-feed-forward-neural-network>)
+- [NSRR (sleepdata.org)](<https://sleepdata.org/blog/2024/06/expert-level-sleep-staging-using-an-electrocardiography-only-feed-forward-neural-network>)
 - [NSRR (YouTube)](<https://youtu.be/qRTqVaaiX6s>)
-- [UH Newsroom](<http://uscholars.uh.edu/news-events/stories/2024/july/07022024-sheth-sleep-staging-monitoring.php>)
+- [UH Newsroom (uh.edu)](<http://uscholars.uh.edu/news-events/stories/2024/july/07022024-sheth-sleep-staging-monitoring.php>)
 
 ## Additional:
 
