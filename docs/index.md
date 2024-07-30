@@ -36,6 +36,14 @@ The [GitHub repository](https://github.com/adammj/ecg-sleep-staging) contains ev
 
 If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your data, as well as replicate anything from the paper.
 
+# ECG Equipment
+
+Unfortunately, there are few commercial ECG recording devices on the market right now (which could record ECG comfortably while asleep). This is an easily solvable problem for any enterprising companies. Be that as it may, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
+
+- The recording should be of Lead I (limb lead across the heart). See [ECG Lead positioning](https://litfl.com/ecg-lead-positioning/) for the proper locations of the "RA" and "LA" electrodes.
+- The sampling rate should be a minimum of 125 Hz. Higher is better, with the "optimal" rate for the network's input being 256 Hz.
+- The sampling resolution should be a minimum of 16 bits. Higher is better.
+
 # References
 
 If you find this repository helpful, please cite the paper:

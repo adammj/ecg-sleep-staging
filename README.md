@@ -21,6 +21,14 @@ If you find this repository helpful, please cite the paper:
 
 To get this into the hands of others and in use as soon as possible, there is a separate folder structure just for new and future users (verses documenting what was done for the paper, below).
 
+### ECG Equipment
+
+Unfortunately, there are few commercial ECG recording devices on the market right now (which could record ECG comfortably while asleep). This is an easily solvable problem for any enterprising companies. Be that as it may, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
+
+- The recording should be of Lead I (limb lead across the heart). See [ECG Lead positioning](https://litfl.com/ecg-lead-positioning/) for the proper locations of the "RA" and "LA" electrodes.
+- The sampling rate should be a minimum of 125 Hz. Higher is better, with the "optimal" rate for the network's input being 256 Hz.
+- The sampling resolution should be a minimum of 16 bits. Higher is better.
+
 ### Data processing
 
 While all of the code that was used for everything described in the paper is in the `paper` folder, that code was originally designed around processing thousands of files in parallel in specific steps (which was easier to write in MATLAB at the time).
