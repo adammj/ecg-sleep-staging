@@ -54,7 +54,7 @@ def load_sample_from_file(file_h: h5.File, is_training: bool = True) -> dict:
     demographics = torch.Tensor(file_h["demographics"][()]).squeeze()  # type: ignore
     midnight_offset = torch.Tensor(file_h["midnight_offset"][()]).squeeze()  # type: ignore
 
-    if is_training: 
+    if is_training:
         # loss requires long for stages
         stages = torch.LongTensor(file_h["stages"][()])  # type: ignore
         weights = torch.Tensor(file_h["weights"][()])  # type: ignore
@@ -650,7 +650,7 @@ class SleepNet(Module):
         labels_out = labels_out.view(subject_count, -1, labels_out.size(-1))
 
         # both returns should be in (subjects, epochs, labels/features)
-        return labels_out, features_out  # can remove fro captum
+        return labels_out, features_out
 
     def forward_with_dict(self, data_dict: dict) -> Tuple[Tensor, Tensor]:
 

@@ -58,14 +58,11 @@ Additional works cited above:
 
 # Online Mentions
 
-## Primary:
-
 - [NSRR (Twitter/X)](<https://x.com/sleepdatansrr/status/1805564095875498136?s=46>)
 - [NSRR (sleepdata.org)](<https://sleepdata.org/blog/2024/06/expert-level-sleep-staging-using-an-electrocardiography-only-feed-forward-neural-network>)
 - [NSRR (YouTube)](<https://youtu.be/qRTqVaaiX6s>)
 - [UH Newsroom (uh.edu)](<http://uscholars.uh.edu/news-events/stories/2024/july/07022024-sheth-sleep-staging-monitoring.php>)
-
-## Additional:
+- [Healio (healio.com)](<https://www.healio.com/news/pulmonology/20240805/qa-electrocardiographybased-sleep-stage-scoring-on-par-with-polysomnography>)
 
 <a href="https://plu.mx/plum/a/?doi=10.1016%2Fj.compbiomed.2024.108545" class="plumx-details" data-site="plum" data-hide-when-empty="true">Expert-level sleep staging using an electrocardiography-only feed-forward neural network</a>
 
