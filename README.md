@@ -49,6 +49,12 @@ The `your_datafile.h5` can either be in the same folder, or elsewhere (as long a
 
 If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
 
+#### Primary model without demographics (new)
+
+A new primary model that does not require the subject's demographics (age and sex) is now available. The Cohen's kappa for this model on the testing set is 0.718 (which is >99% of the performance of the primary model with demographics). To clarify, this model will only need the variables `ecgs` and `midnight_offset` to perform inference.
+
+This model was created after the paper was published, and is therefore not discussed in the paper.
+
 ### FYI: description of files inside model folders
 
 - `adams.py` (optimizer, original source here: [zeke-xie/stable-weight-decay-regularization](<https://github.com/zeke-xie/stable-weight-decay-regularization>))
