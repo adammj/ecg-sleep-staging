@@ -24,6 +24,19 @@ The meta-analysis of 11 papers on PSG sleep staging, demonstrate the on-par resu
 
 Our intention is for CSG to take expert-level sleep studies outside the confines of clinics and laboratories and into realistic settings. Eliminating the need for most of the cumbersome equipment and a human scorer it makes less-expensive, higher-quality studies accessible to a broader community. We hope this will enable improved sleep research and more personalized, accessible sleep-related healthcare interventions.
 
+# Sleep Score Your Own Data
+
+There are currently three models in the repository (described below) that anyone can use to score their own ECG data:
+
+1. Primary model
+    - This model is designed to take an entire night's worth of sleep and score it all at once.
+2. Real time model 
+    - This model is designed to take just the data that has been recorded up till "now" and score it all at once. As each new 30-second epoch of data is recorded, the model can be run again.
+3. **NEW** Primary model **without demographics**
+    - This model was not in the paper, having been trained just recently.
+    - The model works the same way as the primary model, except you do not need to provide the demographics (age and sex) of the subject.
+    - There is a slight (<1%) performance impact, as measured with Cohen's kappa, compared to the original primary model.
+
 # Code Repository
 
 The [GitHub repository](https://github.com/adammj/ecg-sleep-staging) contains everything you need to do the following:
