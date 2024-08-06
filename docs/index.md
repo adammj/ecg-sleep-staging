@@ -30,7 +30,7 @@ There are currently three models in the repository (described below) that anyone
 
 1. Primary model
     - This model is designed to take an entire night's worth of sleep and score it all at once.
-2. Real time model 
+2. Real-time model 
     - This model is designed to take just the data that has been recorded up till "now" and score it all at once. As each new 30-second epoch of data is recorded, the model can be run again.
 3. **NEW** Primary model **without demographics**
     - This model was not in the paper, having been trained just recently.
