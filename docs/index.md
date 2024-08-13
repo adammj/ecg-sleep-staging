@@ -77,5 +77,7 @@ Additional works cited above:
 - [UH Newsroom (uh.edu)](<http://uscholars.uh.edu/news-events/stories/2024/july/07022024-sheth-sleep-staging-monitoring.php>)
 - [Healio (healio.com)](<https://www.healio.com/news/pulmonology/20240805/qa-electrocardiographybased-sleep-stage-scoring-on-par-with-polysomnography>)
 
+<br>
+
 <a href="https://plu.mx/plum/a/?doi=10.1016%2Fj.compbiomed.2024.108545" class="plumx-details" data-site="plum" data-hide-when-empty="true">Expert-level sleep staging using an electrocardiography-only feed-forward neural network</a>
 

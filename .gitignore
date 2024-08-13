@@ -161,3 +161,7 @@ cython_debug/
 
 # prevent inclusion of large file
 tsne_results.mat
+
+# jekyll
+_site/
+.jekyll-metadata
