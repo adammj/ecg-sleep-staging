@@ -195,6 +195,9 @@ def return_available_gpu(max_mb_used: int = 1500) -> torch.device:
 def shm_avail_bytes() -> int:
     """get available bytes in /dev/shm  (this is a slow call)"""
     # df defaults to kib
+    if not os.path.isdir("/dev/shm/"):
+        return 0
+
     try:
         kibytes = int(
             subprocess.check_output(["df", "/dev/shm"]).split()[10].decode("utf-8")
