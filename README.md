@@ -35,6 +35,24 @@ While all of the code that was used for everything described in the paper is in 
 To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG/EKG data and filter it (as described in the paper and in the `Data file description` section below).
 Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. This code will go in the `data_processing` folder (which currently just has a placeholder file).
 
+#### Expectations for ECG input
+
+If you are processing data using your own pipeline, your need to make sure that the final output (the input ECG for the network), matches the expectations listed in the paper. Specifically, the network expects the following:
+
+- The data is sampled at 256 Hz.
+- The data is divided into 30-second epochs.
+- The data has been high-pass filtered at 0.5 Hz.
+- Line noise (50/60 Hz) and any other constant-frequency noise has been removed with a notch filter.
+- The data has been scaled in the following manner:
+    - The median of all data has been subtracted
+    - You have measured the min and max values for every heartbeat. And then you have scaled the data such that the 90th percentile (or greater) of the min and max lies within the range [-0.5, 0.5]
+- No values should be outside the range [-1, 1].
+
+The figure below should hopefully make the above ECG requirements clearer.
+
+![Expected Network Input](docs/assets/beat_voltage_diagram.png?raw=true)
+
+
 ### Sleep stage scoring (primary or real-time model)
 
 There is a folder for each model: `primary` and `real-time`. They are completely self-contained, and, as a consequence, are almost exact duplicates. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
@@ -78,9 +96,7 @@ If just performing inference (only scoring data, and not training), then only th
 - `ecgs`:
   - 2D array of floats (size: epoch_count x 7680)
   - Where 7680 = 30 x 256Hz.
-  - Network was trained on raw ECG data that had been filtered and scaled:
-    - High-pass filtered (0.5 Hz).
-    - Scaled or clipped to -/+ 1, with 90% of the maximum R waves (or other tallest wave in the heartbeat) within + or - 0.5.
+  - Network was trained on raw ECG data that had been filtered and scaled appropriately. See **Expectations for ECG input** above.
 - `demographics`:
   - 2D array of floats (size: 2 x 1):
     - 1st: sex (0=female, 1=male)
