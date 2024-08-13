@@ -31,5 +31,6 @@
   "cache_datasets": false,
   "train_invert_ecg": true,
   "num_workers": 6,
-  "log_file": "log.json"
+  "log_file": "log.json",
+  "validate_ecg": true
 }

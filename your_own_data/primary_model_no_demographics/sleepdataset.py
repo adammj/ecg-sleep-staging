@@ -46,6 +46,7 @@ class SleepSubject(object):
         cache_during_creation: bool,
         stage_count: int,
         is_training: bool = True,
+        validate_ecg: bool = True
     ):
         super(SleepSubject, self).__init__()
 
@@ -55,6 +56,7 @@ class SleepSubject(object):
         self.pickle_path = pickle_path  # pickled
         self.is_pickled = False
         self.is_training = is_training
+        self.validate_ecg = validate_ecg
 
         # create pickle_path directory, if doesn't exist
         if pickle_path is not None and not os.path.isdir(pickle_path):
@@ -93,6 +95,41 @@ class SleepSubject(object):
             file_name = self.original_path + self.filename + ".h5"
             file_name = file_name.replace(".h5.h5", ".h5")
         return file_name
+    
+    def check_ecg_variable(self, ecgs: Tensor | np.ndarray):
+        """check the ecg variable"""
+        
+        if not (torch.is_tensor(ecgs) or isinstance(ecgs, np.ndarray)):
+            raise TypeError("ecgs is not a Tensor or Numpy array")
+        
+        if ecgs.ndim != 2:
+            raise ValueError("ecgs should be a 2D array")
+        
+        if ecgs.shape[0] == 0:
+            raise ValueError("ecgs should have at least 1 epoch of data")
+        
+        if ecgs.shape[1] != 7680:
+            raise ValueError("ecgs second dimension should be exactly 7680 (30sec * 256Hz)")
+        
+        if torch.is_tensor(ecgs):
+            if torch.min(ecgs) < -1:
+                raise ValueError("no value in ecgs should be below -1")
+            
+            if torch.max(ecgs) > 1:
+                raise ValueError("no value in ecgs should be above 1")
+            
+            if torch.abs(torch.median(ecgs)) > 0.001:
+                raise ValueError("median of ecgs should be ~ 0")
+        
+        else:
+            if np.min(ecgs) < -1:
+                raise ValueError("no value in ecgs should be below -1")
+            
+            if np.max(ecgs) > 1:
+                raise ValueError("no value in ecgs should be above 1")
+            
+            if np.abs(np.median(ecgs)) > 0.001:
+                raise ValueError("median of ecgs should be ~ 0")
 
     def try_to_load_file(self, use_pickled_file: bool, silent_missing: bool = False):
         """check if file exists and load some data from the file"""
@@ -106,21 +143,29 @@ class SleepSubject(object):
             try:
                 if not use_pickled_file:
                     with h5.File(file_name, "r") as file_h:
+                        if self.validate_ecg:
+                            self.check_ecg_variable(file_h["ecgs"][()])  # type: ignore
+                        
                         stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
                         self.epoch_count = stages_tensor.shape[0]
                         self.target_stages = stages_tensor.squeeze()
                         self.target_stages = combine_stages(
                             self.target_stages, self.stage_count
                         )
+                            
                     return True
                 else:
                     with open(file_name, "rb") as file_h:
                         sample = pickle.load(file_h)
+                        if self.validate_ecg:
+                            self.check_ecg_variable(sample["ecgs"])
+
                         self.epoch_count = sample["epoch_count"]
                         self.target_stages = sample["stages"].squeeze()
                         self.target_stages = combine_stages(
                             self.target_stages, self.stage_count
                         )
+
                     return True
 
             except Exception:
@@ -194,6 +239,7 @@ class SleepDataset(Dataset):
         self.train_invert_ecg = train_params["train_invert_ecg"]
         self.train_noise_per = train_params["train_noise_per"]
         self.weight_subjects = train_params["weight_subjects"]
+        self.validate_ecg = train_params["validate_ecg"]
 
         # 1=train, 2=validation, 3=test, 4=train+validation
         if set_type not in [1, 2, 3, 4]:
@@ -272,7 +318,8 @@ class SleepDataset(Dataset):
                         self.dataset_number,
                         cache_during_creation,
                         self.stage_count,
-                        self.is_training
+                        self.is_training,
+                        self.validate_ecg
                     )
                 ]
 
