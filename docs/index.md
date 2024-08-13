@@ -47,7 +47,7 @@ The [GitHub repository](https://github.com/adammj/ecg-sleep-staging) contains ev
 4. Use the loss function for your own models
 5. Replicate everything in the paper's Methods and Results sections
 
-If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your data, as well as replicate anything from the paper.
+If you need any assistance, please feel free to file an issue in the repository or contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your data, as well as replicate anything from the paper.
 
 # ECG Equipment
 

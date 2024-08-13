@@ -65,7 +65,7 @@ python train.py your_datafile.h5
 
 The `your_datafile.h5` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.h5` file in the same folder.
 
-If you need any assistance, please feel free to contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
+If you need any assistance, please feel free to file an issue in the repository or contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
 
 #### Primary model without demographics (new)
 
@@ -143,7 +143,7 @@ All of the code and intermediate results that were used to evaluate the final mo
    - The intermediate data that was created from the various experiments described and plotted in the paper.
 3. **3_figures**
    - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a PDF and PNG file for each figure.
-   - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact us if you would like a copy of the file.
+   - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact me if you would like a copy of the file.
 
 ---
 
