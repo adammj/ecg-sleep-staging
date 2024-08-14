@@ -167,6 +167,14 @@ The toolbox and package requirements to run the code are as follows:
 
 ---
 
+Paper links:
+
+- [Published paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>)
+- [Preprint version](<https://www.medrxiv.org/content/10.1101/2023.10.13.23297018v1>)
+    - There were some large changes, except for the network and results, that occurred during peer-review, and are therefore not in this version.
+
+---
+
 Copyright (C) 2024  Adam Jones  All Rights Reserved
 
 This program is free software: you can redistribute it and/or modify
