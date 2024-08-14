@@ -1,4 +1,4 @@
-% Copyright (C) 2024  Adam M. Jones
+% Copyright (C) 2024  Adam Jones  All Rights Reserved
 % 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU Affero General Public License as published
