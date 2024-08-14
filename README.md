@@ -39,14 +39,18 @@ Eventually, I will rewrite the pipeline to accommodate the processing of individ
 
 If you are processing data using your own pipeline, your need to make sure that the final output (the input ECG for the network), matches the expectations listed in the paper. Specifically, the network expects the following:
 
-- The data is sampled at 256 Hz.
-- The data is divided into 30-second epochs.
-- The data has been high-pass filtered at 0.5 Hz.
-- Line noise (50/60 Hz) and any other constant-frequency noise has been removed with a notch filter.
+- Sampled at 256 Hz.
+- Divided into 30-second epochs (shape: epoch_count x 7680).
+- Noise has been filtered:
+    - High-pass filtered at 0.5 Hz to remove baseline wander.
+    - Line noise (50/60 Hz) and any other constant-frequency noise has been removed with a notch filter(s).
 - The data has been scaled in the following manner:
-    - The median of all data has been subtracted
-    - You have measured the min and max values for every heartbeat. And then you have scaled the data such that the 90th percentile (or greater) of the min and max lies within the range [-0.5, 0.5]
-- No values should be outside the range [-1, 1].
+    - The median of all data should been subtracted (such that the median = 0).
+    - You have measured the min and max values for every heartbeat. And then you have scaled the data such that the 90th percentile (or greater) of the min and max lies within the range [-0.5, 0.5].
+    - Movement artifacts and other noise may exceed the amplitude of most heartbeats, and therefore lie within the range of [-1, -0.5] and [0.5, 1].
+    - Regardless of abnormally "tall" heartbeats or noise, all values should be clamped to [-1, 1].
+
+When loading data, the network's code will test, by default, if any values are outside [-1, 1] and if the median ~= 0. However, it will not know if the ECG is scaled inappropriately (such that heartbeats generally exceed [-0.5, 0.5]).
 
 The figure below should hopefully make the above ECG requirements clearer.
 
