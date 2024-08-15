@@ -156,7 +156,8 @@ All of the code and intermediate results that were used to evaluate the final mo
 The toolbox and package requirements to run the code are as follows:
 
 - Python
-  - I've provided three different `requirements.txt` files, depending on your needs. If you just want to score sleep using one of the models, then you only need to `requirements_cpu.txt` file. However, if you would like to train the model, or otherwise make use of your GPU, then use `requirements_gpu.txt`. Finally, if you want to reproduce the figures from the paper, use `requirements_paper.txt`.
+  - I've provided three different `requirements.txt` files, depending on your needs. These were created with [conda](<https://docs.anaconda.com/miniconda/miniconda-install/>), as this is the package manager I use for the more complex requirements of [PyTorch](<https://pytorch.org/get-started/locally/>). 
+  - If you just want to score sleep using one of the models, then you only need to `requirements_cpu.txt` file. However, if you would like to train the model, or otherwise make use of your GPU, then use `requirements_gpu.txt`. Finally, if you want to reproduce the figures from the paper, use `requirements_paper.txt`.
 - MATLAB (2023a)
   - Parallel Computing Toolbox (7.8)
   - Signal Processing Toolbox (9.2)
