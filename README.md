@@ -106,7 +106,7 @@ If just performing inference (only scoring data, and not training), then only th
     - 1st: sex (0=female, 1=male)
     - 2nd: age (age/100)
 - `midnight_offset`:
-  - A float that represents the first epoch's clock time where 0 = midnight and -1 = 24hr before midnight and 1 = 24hr after midnight.
+  - A float that represents the first epoch's clock time where 0 = midnight and -1 = 24hr before midnight and 1 = 24hr after midnight. I.e., 9pm = -0.125 and 3am = 0.125.
 - `stages` (only required for training):
   - 2D array of floats (size: epoch_count x 1):
     - Stage mapping: 0=Wake, 1=N1/S1, 2=N2/S2, 3=N3/S3/S4, 4=REM.
