@@ -45,8 +45,8 @@ If you are processing data using your own pipeline, your need to make sure that 
 2. Sampled at 256 Hz (resample **-after-** filtering).
 3. The data has been scaled in the following manner:
     - The median of all data should been subtracted (such that the median = 0).
-    - You have measured the min and max values for every heartbeat. And then you have scaled the data such that the 90th percentile (or greater) of the min and max lies within the range [-0.5, 0.5].
-    - Movement artifacts and other noise may exceed the amplitude of most heartbeats, and therefore lie within the range of [-1, -0.5] and [0.5, 1].
+    - You have measured the min and max values for every heartbeat (**NOT** all data, just the heartbeats). And then you have scaled the data such that the 90th percentile (or greater) of the min and max lies within the range [-0.5, 0.5].
+    - Movement artifacts and other noise may exceed the amplitude of most heartbeats, and it is okay if those values lie within the range of [-1, -0.5] and [0.5, 1].
     - Regardless of abnormally "tall" heartbeats or noise, all values should be clamped to [-1, 1].
 4. Finally, divided/reshaped into 30-second epochs (shape: epoch_count x 7680).
 
