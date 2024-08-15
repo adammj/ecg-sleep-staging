@@ -231,16 +231,17 @@ class SleepNetExperiment:
         if not self.eval_set.is_ready():
             quit()
 
-        print("training set:")
-        self.train_set = SleepDataset(
-            self.train_params,
-            self.train_params["train_set_type"],
-            self.train_params["train_max_samples"],
-            self.train_params["cache_datasets"],
-            stage_count=self.stage_count,
-        )
-        if not self.train_set.is_ready():
-            quit()
+        if not self.save_results_and_exit:
+            print("training set:")
+            self.train_set = SleepDataset(
+                self.train_params,
+                self.train_params["train_set_type"],
+                self.train_params["train_max_samples"],
+                self.train_params["cache_datasets"],
+                stage_count=self.stage_count,
+            )
+            if not self.train_set.is_ready():
+                quit()
 
     def create_dataloaders(self) -> None:
         """Create the loaders for the datasets."""
@@ -250,16 +251,17 @@ class SleepNetExperiment:
         if self.train_params["save_results_and_exit"] is True:
             self.train_params["num_workers"] = 0
 
-        # shuffle training loader
-        self.train_loader = DataLoader(
-            self.train_set,
-            batch_size=self.train_params["batch_size"],
-            shuffle=True,
-            num_workers=self.train_params["num_workers"],
-            collate_fn=sleepnet_collate,
-            pin_memory=True,
-            worker_init_fn=seed_init_fn,
-        )
+        if not self.save_results_and_exit:
+            # shuffle training loader
+            self.train_loader = DataLoader(
+                self.train_set,
+                batch_size=self.train_params["batch_size"],
+                shuffle=True,
+                num_workers=self.train_params["num_workers"],
+                collate_fn=sleepnet_collate,
+                pin_memory=True,
+                worker_init_fn=seed_init_fn,
+            )
 
         # evaluation loader is given batch_size = 1 to make sure that results are always reproducible
         self.eval_loader = DataLoader(
@@ -344,8 +346,9 @@ class SleepNetExperiment:
             print("set scheduler state dict...")
             self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])  # type: ignore
 
-            print("load subject weights")
-            self.train_set.set_all_subject_weights(checkpoint["subject_weights"])
+            if not self.save_results_and_exit:
+                print("load subject weights")
+                self.train_set.set_all_subject_weights(checkpoint["subject_weights"])
 
             print("resuming from checkpoint file...")
             self.loaded_checkpoint = True
@@ -390,11 +393,14 @@ class SleepNetExperiment:
         )
         confusions = self.eval_set.get_all_subject_confusions().numpy()
         predictions = self.eval_set.get_all_subject_predictions().numpy()
-        train_subject_weights = self.train_set.get_all_subject_weights().numpy()
+        if not self.save_results_and_exit:
+            train_subject_weights = self.train_set.get_all_subject_weights().numpy()
+        
         with h5.File("results.h5", "w") as file_h:
             file_h.create_dataset("confusions", data=confusions)
             file_h.create_dataset("predictions", data=predictions)
-            file_h.create_dataset("train_subject_weights", data=train_subject_weights)
+            if not self.save_results_and_exit:
+                file_h.create_dataset("train_subject_weights", data=train_subject_weights)
 
     def run_main_loop(self) -> None:
         """Run the main train/evaluate loop."""
