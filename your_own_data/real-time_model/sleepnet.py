@@ -1,21 +1,21 @@
 # Copyright (C) 2024  Adam Jones  All Rights Reserved
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
 # by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-""" This file contains everything directly related to the network, its specific data,
-    and any other support functions that are directly tied to what the network needs as an input.
+"""This file contains everything directly related to the network, its specific data,
+and any other support functions that are directly tied to what the network needs as an input.
 """
 
 import time
@@ -654,7 +654,6 @@ class SleepNet(Module):
         return labels_out, features_out
 
     def forward_with_dict(self, data_dict: dict) -> Tuple[Tensor, Tensor]:
-
         return self.forward(
             data_dict["ecgs"], data_dict["additional"], data_dict["padding_eliminator"]
         )
@@ -668,7 +667,7 @@ def move_tensors_to_device(data_dict: dict, device: torch.device) -> dict:
         data_dict[key] = data_dict[key].to(device, non_blocking=True)
 
     # wait for everything to finish (to get more accurate times)
-    if torch.cuda.is_available():    
+    if torch.cuda.is_available():
         torch.cuda.synchronize()
 
     return data_dict

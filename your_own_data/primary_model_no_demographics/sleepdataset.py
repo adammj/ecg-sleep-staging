@@ -14,8 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-""" This file is for the SleepDataset and SleepSubject classes.
-"""
+"""This file is for the SleepDataset and SleepSubject classes."""
 
 import os
 import pickle
@@ -46,7 +45,7 @@ class SleepSubject(object):
         cache_during_creation: bool,
         stage_count: int,
         is_training: bool = True,
-        validate_ecg: bool = True
+        validate_ecg: bool = True,
     ):
         super(SleepSubject, self).__init__()
 
@@ -95,39 +94,41 @@ class SleepSubject(object):
             file_name = self.original_path + self.filename + ".h5"
             file_name = file_name.replace(".h5.h5", ".h5")
         return file_name
-    
+
     def check_ecg_variable(self, ecgs: Tensor | np.ndarray):
         """check the ecg variable"""
-        
+
         if not (torch.is_tensor(ecgs) or isinstance(ecgs, np.ndarray)):
             raise TypeError("ecgs is not a Tensor or Numpy array")
-        
+
         if ecgs.ndim != 2:
             raise ValueError("ecgs should be a 2D array")
-        
+
         if ecgs.shape[0] == 0:
             raise ValueError("ecgs should have at least 1 epoch of data")
-        
+
         if ecgs.shape[1] != 7680:
-            raise ValueError("ecgs second dimension should be exactly 7680 (30sec * 256Hz)")
-        
+            raise ValueError(
+                "ecgs second dimension should be exactly 7680 (30sec * 256Hz)"
+            )
+
         if torch.is_tensor(ecgs):
             if torch.min(ecgs) < -1:
                 raise ValueError("no value in ecgs should be below -1")
-            
+
             if torch.max(ecgs) > 1:
                 raise ValueError("no value in ecgs should be above 1")
-            
+
             if torch.abs(torch.median(ecgs)) > 0.001:
                 raise ValueError("median of ecgs should be ~ 0")
-        
+
         else:
             if np.min(ecgs) < -1:
                 raise ValueError("no value in ecgs should be below -1")
-            
+
             if np.max(ecgs) > 1:
                 raise ValueError("no value in ecgs should be above 1")
-            
+
             if np.abs(np.median(ecgs)) > 0.001:
                 raise ValueError("median of ecgs should be ~ 0")
 
@@ -145,14 +146,23 @@ class SleepSubject(object):
                     with h5.File(file_name, "r") as file_h:
                         if self.validate_ecg:
                             self.check_ecg_variable(file_h["ecgs"][()])  # type: ignore
-                        
-                        stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
+
+                        if self.is_training:
+                            # if training, load the actual stages variable
+                            stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
+                        else:
+                            # otherwise, create a dummy stages tensor
+                            stages_tensor = torch.zeros(
+                                (file_h["ecgs"].shape[0], 1),  # type: ignore
+                                dtype=torch.long,
+                            )
+
                         self.epoch_count = stages_tensor.shape[0]
                         self.target_stages = stages_tensor.squeeze()
                         self.target_stages = combine_stages(
                             self.target_stages, self.stage_count
                         )
-                            
+
                     return True
                 else:
                     with open(file_name, "rb") as file_h:
@@ -319,7 +329,7 @@ class SleepDataset(Dataset):
                         cache_during_creation,
                         self.stage_count,
                         self.is_training,
-                        self.validate_ecg
+                        self.validate_ecg,
                     )
                 ]
 
@@ -351,7 +361,6 @@ class SleepDataset(Dataset):
         return self.count
 
     def __getitem__(self, index: int):
-        
         if index < 0 or index >= self.count:
             raise ValueError("index must be in [0, self.count)")
 
@@ -362,7 +371,6 @@ class SleepDataset(Dataset):
 
         # during training, some data is modified
         if self.is_training:
-
             # 50% chance of inverting the ecg
             if self.train_invert_ecg and (np.random.randint(0, 2) > 0):
                 sample["ecgs"] = -sample["ecgs"]
@@ -439,7 +447,6 @@ class SleepDataset(Dataset):
 
         # update kappas for each subject in a batch
         for i, subject_filename in enumerate(filenames):
-
             # get the subject index for the given filename
             subject_index = self.filenames.index(subject_filename)
 
