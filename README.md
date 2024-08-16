@@ -23,7 +23,13 @@ To get this into the hands of others and in use as soon as possible, there is a 
 
 ### ECG Equipment
 
-Unfortunately, there are few commercial ECG recording devices on the market right now (which could record ECG comfortably while asleep). This is an easily solvable problem for any enterprising company that's interested. Be that as it may, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
+Unfortunately, there are few commercial ECG recording devices on the market right now. I am only aware of two devices that could possibly work and be worn comfortably while asleep. However, I have not personally tried either yet, so I cannot vouch for them.
+
+- [Polar H10](<https://www.polar.com/us-en/sensors/h10-heart-rate-sensor/>)
+    - The sample rate is [reported](<https://github.com/polarofficial/polar-ble-sdk>) as 130 Hz.
+- [Movesense](<https://www.movesense.com/>)
+
+However, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
 
 - The recording should be of Lead I (limb lead across the heart). See [ECG Lead positioning](https://litfl.com/ecg-lead-positioning/) for the proper locations of the "RA" and "LA" electrodes.
 - The sampling rate should be a minimum of 125 Hz. Higher is better, with the "optimal" rate for the network's input being 256 Hz.
