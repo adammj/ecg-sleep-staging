@@ -119,7 +119,8 @@ If just performing inference (only scoring data, and not training), then only th
 - `stages` (only required for training):
   - 2D array of floats (size: epoch_count x 1):
     - Stage mapping: 0=Wake, 1=N1/S1, 2=N2/S2, 3=N3/S3/S4, 4=REM.
-    - All "unscored" epochs should be marked as 0.
+      - It is not uncommon to find REM mapped to 5. However, the network was trained with data with both AASM and R&K scorings, so a unified "deep sleep" score was mapped to 3. And because it's inconvenient to have a gap, REM was remapped to 4.
+    - All "unscored" epochs should be mapped to 0 (also see weight below).
 - `weights` (only required for training):
   - 2D array of floats (size: epoch_count x 1):
     - 0 (no weight) to 1 (full weight)
