@@ -47,8 +47,6 @@ The [GitHub repository](https://github.com/adammj/ecg-sleep-staging) contains ev
 4. Use the loss function for your own models
 5. Replicate everything in the paper's Methods and Results sections
 
-If you need any assistance, please feel free to file an issue in the repository or contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your data, as well as replicate anything from the paper.
-
 # ECG Equipment
 
 Unfortunately, there are few commercial ECG recording devices on the market right now. I am only aware of two devices that could possibly work and be worn comfortably while asleep. However, I have not personally tried either yet, so I cannot vouch for them.
@@ -91,3 +89,6 @@ Additional works cited above:
 
 <a href="https://plu.mx/plum/a/?doi=10.1016%2Fj.compbiomed.2024.108545" class="plumx-details" data-site="plum" data-hide-when-empty="true">Expert-level sleep staging using an electrocardiography-only feed-forward neural network</a>
 
+# Contact
+
+If you need any assistance, please feel free to file an issue in the repository or contact me (contact details provided in the paper and on the journal's website). I will be happy to help you use and modify the code to work on your data, as well as replicate anything from the paper.

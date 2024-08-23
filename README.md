@@ -76,8 +76,6 @@ python train.py your_datafile.h5
 
 The `your_datafile.h5` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.h5` file in the same folder.
 
-If you need any assistance, please feel free to file an issue in the repository or contact me (contact details provided in the paper). I will be happy to help you use and modify the code to work on your own data, as well as replicate anything from the paper.
-
 #### Primary model without demographics (new)
 
 A new primary model that does not require the subject's demographics (age and sex) is now available. The Cohen's kappa for this model on the testing set is 0.718 (which is >99% of the performance of the primary model with demographics). To clarify, this model will only need the variables `ecgs` and `midnight_offset` to perform inference.
@@ -179,11 +177,17 @@ The toolbox and package requirements to run the code are as follows:
 
 ---
 
-Paper links:
+## Paper links:
 
 - [Published paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>)
 - [Preprint version](<https://www.medrxiv.org/content/10.1101/2023.10.13.23297018v1>)
     - There were some large changes between the preprint and the final, published, version (mainly revolving around adding a large meta-analysis). However, the network and testing set results are the same.
+
+---
+
+## Contact
+
+If you need any assistance, please feel free to file an issue in the repository or contact me (contact details provided in the paper and on the journal's website). I will be happy to help you use and modify the code to work on your data, as well as replicate anything from the paper.
 
 ---
 
