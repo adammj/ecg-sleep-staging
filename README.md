@@ -191,7 +191,7 @@ If you need any assistance, please feel free to file an issue in the repository 
 
 ---
 
-Copyright (C) 2024  Adam Jones  All Rights Reserved
+Copyright (C) 2024 Adam Jones. All Rights Reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
