@@ -25,9 +25,10 @@ To get this into the hands of others and in use as soon as possible, there is a 
 
 Unfortunately, there are few commercial ECG recording devices on the market right now. I am only aware of two devices that could possibly work and be worn comfortably while asleep. However, I have not personally tried either yet, so I cannot vouch for them.
 
-- [Polar H10](<https://www.polar.com/us-en/sensors/h10-heart-rate-sensor/>)
-    - The sample rate is [reported](<https://github.com/polarofficial/polar-ble-sdk>) as 130 Hz.
 - [Movesense](<https://www.movesense.com/>)
+    - The [sampling rates](<https://www.movesense.com/docs/esw/api_reference/>) are: 125, 128, 200, 250, 256, 500, and 512 Hz.
+- [Polar H10](<https://www.polar.com/us-en/sensors/h10-heart-rate-sensor/>)
+    - The [sampling rate](<https://github.com/polarofficial/polar-ble-sdk>) is: 130 Hz.
 
 However, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
 
