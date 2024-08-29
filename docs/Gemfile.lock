@@ -61,7 +61,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
-    rexml (3.3.4)
+    rexml (3.3.6)
       strscan
     rouge (4.3.0)
     rubyzip (2.3.2)
@@ -80,6 +80,7 @@ PLATFORMS
 DEPENDENCIES
   jekyll-remote-theme
   jekyll-seo-tag
+  rexml (>= 3.3.6)
 
 BUNDLED WITH
    2.5.11
