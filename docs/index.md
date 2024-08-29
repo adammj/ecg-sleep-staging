@@ -5,11 +5,11 @@ layout: default
 
 # Introduction to Cardiosomnography
 
-We propose the term "**cardiosomnography**" (**CSG**) for any sleep study that could be conducted with only electrocardiography (ECG/EKG). In addition to expert-level, five-stage, sleep scoring [[1](#citations)], numerous studies have demonstrated that sleep apnea detection can be reliably performed using only ECG [[2,3,4](#citations)].
+We propose the term "**cardiosomnography**" (**CSG**) for any sleep study that could be conducted with only electrocardiography (ECG/EKG). In addition to expert-level, five-stage, sleep scoring [[1](#references)], numerous studies have demonstrated that sleep apnea detection can be reliably performed using only ECG [[2,3,4](#references)].
 
 # Sleep Staging with CSG
 
-We demonstrate in our recent [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) [[1](#citations)] that it is now possible to score sleep at equivalent performance to expert human-scored polysomnography (PSG) using only ECG. The method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
+We demonstrate in our recent [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) [[1](#references)] that it is now possible to score sleep at equivalent performance to expert human-scored polysomnography (PSG) using only ECG. The method offers an inexpensive, automated, and convenient alternative for sleep stage classification—further enhanced by a real-time scoring option.
 
 We suggest that everyone interested should read the [paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>) to find out more. (Make sure to also check out the supplemental, as I had too many results for the main text.) However, here's a brief summary figure of the meta-analysis results:
 
@@ -56,13 +56,14 @@ Unfortunately, there are few commercial ECG recording devices on the market righ
 - [Polar H10](<https://www.polar.com/us-en/sensors/h10-heart-rate-sensor/>)
     - The [sampling rate](<https://github.com/polarofficial/polar-ble-sdk>) is: 130 Hz.
 
-However, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
+However, if you are using clinical or research equipment to record ECG there are a few important details to keep in mind:
 
 - The recording should be of Lead I (limb lead across the heart). See [ECG Lead positioning](https://litfl.com/ecg-lead-positioning/) for the proper locations of the "RA" and "LA" electrodes.
 - The sampling rate should be a minimum of 125 Hz. Higher is better, with the "optimal" rate for the network's input being 256 Hz.
 - The sampling resolution should be a minimum of 16 bits. Higher is better.
 
 # References
+<a id="references"></a>
 
 If you find this repository helpful, please cite the paper:
 
@@ -76,7 +77,7 @@ Additional works cited above:
 - [3] [T. Penzel, J. McNames, P. de Chazal, B. Raymond, A. Murray, and G. Moody, "Systematic comparison of different algorithms for apnoea detection based on electrocardiogram recordings," Medical and Biological Engineering and Computing, vol. 40, no. 4, pp. 402–407, Jul. 2002, doi: 10.1007/bf02345072.](<https://doi.org/10.1007/bf02345072>)
 - [4] [H. Hilmisson, N. Lange, and S. P. Duntley, "Sleep apnea detection: accuracy of using automated ECG analysis compared to manually scored polysomnography (apnea hypopnea index)," Sleep Breath, vol. 23, no. 1, pp. 125–133, Mar. 2019, doi: 10.1007/s11325-018-1672-0.](<http://doi.org/10.1007/s11325-018-1672-0>)
 
-# Online Interviews and Mentions
+# Interviews and Mentions
 
 - [Healio (healio.com)](<https://www.healio.com/news/pulmonology/20240805/qa-electrocardiographybased-sleep-stage-scoring-on-par-with-polysomnography>)
 - [NSRR (sleepdata.org)](<https://sleepdata.org/blog/2024/06/expert-level-sleep-staging-using-an-electrocardiography-only-feed-forward-neural-network>)
