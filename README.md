@@ -1,6 +1,6 @@
 # Expert-level ECG-only sleep staging
 
-This repository contains all the code and data used in the paper (<https://doi.org/10.1016/j.compbiomed.2024.108545>).
+This repository contains all the code and data used in the paper (<https://doi.org/10.1016/j.compbiomed.2024.108545>), which demonstrates expert-level, five-stage, sleep scoring.
 
 If you find this repository helpful, please cite the paper:
 

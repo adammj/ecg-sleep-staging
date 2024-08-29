@@ -5,7 +5,7 @@ layout: default
 
 # Introduction to Cardiosomnography
 
-We propose the term "**cardiosomnography**" (**CSG**) for any sleep study that could be conducted with only electrocardiography (ECG/EKG). In addition to expert-level sleep staging [[1](#citations)], numerous studies have demonstrated that sleep apnea detection can be reliably performed using only ECG [[2,3,4](#citations)].
+We propose the term "**cardiosomnography**" (**CSG**) for any sleep study that could be conducted with only electrocardiography (ECG/EKG). In addition to expert-level, five-stage, sleep scoring [[1](#citations)], numerous studies have demonstrated that sleep apnea detection can be reliably performed using only ECG [[2,3,4](#citations)].
 
 # Sleep Staging with CSG
 
