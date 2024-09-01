@@ -68,7 +68,8 @@ However, if you are using clinical or research equipment to record ECG there are
 If you find this repository helpful, please cite the paper:
 
 - [1] [Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545.](<https://doi.org/10.1016/j.compbiomed.2024.108545>)
-- [Preprint version](<https://www.medrxiv.org/content/10.1101/2023.10.13.23297018v1>)
+    - Contact details provided on this website and inside the paper.
+- [Preprint version of paper @ medRxiv](<https://www.medrxiv.org/content/10.1101/2023.10.13.23297018v1>)
     - There were some large changes between the preprint and the final, published, version (mainly revolving around adding a large meta-analysis). However, the network and testing set results are the same.
 
 Additional works cited above:
