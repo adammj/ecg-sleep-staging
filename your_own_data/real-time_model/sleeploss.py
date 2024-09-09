@@ -94,12 +94,13 @@ class SleepLoss(_WeightedLoss):
 
         # build confusion from each target stage
         # this will automatically ignore any padded stages (with target = -1)
-        overall_confusion_list: list[Tensor] = []
+        overall_confusion = torch.zeros(
+            (5, 5), dtype=input_stages.dtype, device=input_stages.device
+        )
         for i in range(self.stage_count):
-            overall_confusion_list += [
-                input_stages[target_stages == i].sum(0).unsqueeze(0)
-            ]
-        overall_confusion = torch.cat(overall_confusion_list, 0)
+            overall_confusion[i, :] += input_stages[target_stages == i].sum(
+                0
+            )
 
         # store a copy that can be used later.
         self.loss_confusion = overall_confusion.detach().clone()
