@@ -624,7 +624,7 @@ class SleepNet(Module):
 
         # zero out the features for the padded epochs
         # this is to prevent modifying the feature layers for padded epochs
-        features_out = out * padding_eliminator.repeat(
+        features_out = out * padding_eliminator.expand(
             1, 1, out.size(2)
         )  # expand to number of features
 

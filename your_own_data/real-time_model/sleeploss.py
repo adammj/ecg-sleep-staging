@@ -1,22 +1,20 @@
 # Copyright (C) 2024  Adam Jones  All Rights Reserved
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
 # by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-""" This file is just for the SleepLoss class.
-"""
-
+"""This file is just for the SleepLoss class."""
 
 import torch
 from torch import Tensor
@@ -81,26 +79,26 @@ class SleepLoss(_WeightedLoss):
         return final_loss
 
     def forward(
-        self, input_stages: Tensor, target_stages: Tensor, epoch_weights: Tensor
+        self, input: Tensor, target_stages: Tensor, epoch_weights: Tensor
     ) -> Tensor:
         """pytorch forward call"""
 
         # copy the weights across rows
-        epoch_weights = epoch_weights.unsqueeze(1).repeat(1, self.stage_count)
+        epoch_weights = epoch_weights.unsqueeze(1).expand(1, self.stage_count)
 
         # multiply the input by the weights
         # this will automatically ignore bad epochs (with weight = 0)
-        input_stages = input_stages * epoch_weights
+        input *= epoch_weights
 
         # build confusion from each target stage
         # this will automatically ignore any padded stages (with target = -1)
         overall_confusion = torch.zeros(
-            (5, 5), dtype=input_stages.dtype, device=input_stages.device
+            (self.stage_count, self.stage_count),
+            dtype=input.dtype,
+            device=input.device,
         )
         for i in range(self.stage_count):
-            overall_confusion[i, :] += input_stages[target_stages == i].sum(
-                0
-            )
+            overall_confusion[i, :] += input[target_stages == i].sum(0)
 
         # store a copy that can be used later.
         self.loss_confusion = overall_confusion.detach().clone()
