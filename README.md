@@ -1,5 +1,7 @@
 # Expert-level ECG-only sleep staging
 
+We propose the term “**cardiosomnography**” (**CSG**) for any sleep study that could be conducted using only electrocardiography (ECG/EKG) data. Our intention is for CSG to take more expert-level sleep studies outside the confines of clinics and laboratories and into realistic settings. By eliminating the need for the most cumbersome equipment and a human scorer, it makes less-expensive, higher-quality studies more widely accessible.
+
 This repository contains all the code and data used in the paper (<https://doi.org/10.1016/j.compbiomed.2024.108545>), which demonstrates expert-level, five-stage, sleep scoring. It also contains the code for you to score your own data.
 
 If you find this repository helpful, please cite the paper:
