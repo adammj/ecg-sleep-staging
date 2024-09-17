@@ -135,7 +135,7 @@ If just performing inference (only scoring data, and not training), then only th
 
 The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although I do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), I have provided a listing of all of the file names so that others can train, validate, and test the exact same dataset I used.
 
-And, please, for the sake of proper and valid science, **DO NOT** test against testing set until **after** you have selected your final model. So many papers mess this up. If you are using the testing set more than once, you are leaking data that is supposed to represent the model's performance on an unbiased, unseen, dataset back into the development of the model. **If you do this, your results are sus**.
+And, please, for the sake of proper and valid science, **DO NOT** test against the testing set until **after** you have selected your final model. So many papers mess this up. If you are using the testing set to choose which model to use, you are leaking data that is supposed to represent the model's performance on an unbiased, unseen, dataset back into the development of the model. **If you do this, your results are sus**.
 
 ### benchmark dataset
 
