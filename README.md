@@ -6,6 +6,8 @@ If you find this repository helpful, please cite the paper:
 
 > Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545
 
+Also, make sure to check out the website, <https://cardiosomnography.com>, as I'm keeping a blog for updates there.
+
 ---
 
 1. [Sleep scoring your own data](#sleep-scoring-your-own-data)
@@ -23,7 +25,7 @@ To get this into the hands of others and in use as soon as possible, there is a 
 
 ### ECG Equipment
 
-Unfortunately, there are few commercial ECG recording devices on the market right now. I am only aware of two devices that could possibly work and be worn comfortably while asleep. However, I have not personally tried either yet, so I cannot vouch for them.
+Unfortunately, there are few commercial ECG recording devices on the market right now. I am only aware of two devices that could possibly work and be worn comfortably while asleep. However, I have not personally tried either yet, so I cannot vouch for them. ([Update](<https://cardiosomnography.com/sensor/app/testing-sensors/>): I have now begun testing them.)
 
 - [Movesense](<https://www.movesense.com/>)
     - The [sampling rates](<https://www.movesense.com/docs/esw/api_reference/>) are: 125, 128, 200, 250, 256, 500, and 512 Hz.
@@ -57,7 +59,9 @@ If you are processing data using your own pipeline, your need to make sure that 
     - Regardless of abnormally "tall" heartbeats or noise, all values should be clamped to [-1, 1].
 4. Finally, divided/reshaped into 30-second epochs (shape: epoch_count x 7680).
 
-When loading data, the network's code will test, by default, if any values are outside [-1, 1] and if the median ~= 0. However, it will not know if the ECG is scaled inappropriately (such that heartbeats generally exceed [-0.5, 0.5]).
+When loading data, the network's code will test, by default, if any values are outside [-1, 1] and if the median ~= 0. However, it will not know if the ECG is scaled inappropriately (such as heartbeats being too large or too small). 
+
+**I never tested the effects of scaling the data differently than the pipeline that I used in the paper and have provided here. Therefore, I make no claims that the scoring performance will be equivalent if you use a different pipeline.**
 
 The figure below should hopefully make the above ECG requirements clearer.
 
