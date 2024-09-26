@@ -50,7 +50,7 @@ def load_sample_from_file(file_h: h5.File, is_training: bool = True) -> dict:
     epoch_count = torch.LongTensor([file_h["ecgs"].shape[0]])  # type: ignore
     ecgs = torch.Tensor(file_h["ecgs"][()])  # type: ignore
 
-    # do not expand demographics yet, to make cache smaller
+    # squeeze demographics, to make cache smaller
     demographics = torch.randn(2)  # load random demographics (ignore file contents)
     midnight_offset = torch.Tensor(file_h["midnight_offset"][()]).squeeze()  # type: ignore
 
@@ -624,9 +624,8 @@ class SleepNet(Module):
 
         # zero out the features for the padded epochs
         # this is to prevent modifying the feature layers for padded epochs
-        features_out = out * padding_eliminator.repeat(
-            1, 1, out.size(2)
-        )  # repeat to number of features
+        # expand to number of features
+        features_out = out * padding_eliminator.expand(-1, -1, out.size(2))
 
         # permute to (subjects, features, epochs)
         out = features_out.permute(0, 2, 1)
