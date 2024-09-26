@@ -84,7 +84,7 @@ class SleepLoss(_WeightedLoss):
         """pytorch forward call"""
 
         # copy the weights across rows
-        epoch_weights = epoch_weights.unsqueeze(1).expand(1, self.stage_count)
+        epoch_weights = epoch_weights.unsqueeze(1).repeat(1, self.stage_count)
 
         # multiply the input by the weights
         # this will automatically ignore bad epochs (with weight = 0)

@@ -625,9 +625,9 @@ class SleepNet(Module):
 
         # zero out the features for the padded epochs
         # this is to prevent modifying the feature layers for padded epochs
-        features_out = out * padding_eliminator.expand(
+        features_out = out * padding_eliminator.repeat(
             1, 1, out.size(2)
-        )  # expand to number of features
+        )  # repeat to number of features
 
         # permute to (subjects, features, epochs)
         out = features_out.permute(0, 2, 1)
