@@ -69,7 +69,7 @@ The figure below should hopefully make the above ECG requirements clearer.
 
 #### Additional ECG scaling information
 
- I can say that the network is very robust to scaling from 0.5x to 2.0x of the "correct" amplitude (using the full pipeline that was used in the paper, and is included here).
+ I can say that the network is very robust to scaling from 0.5x to 2.0x of the "correct" amplitude (using the full pipeline that was used in the paper, and is included here). However, I will come back later with more comprehensive results.
 
 | Ratio of ECG amplitude | Kappa ratio |
 | ----- | ----- |
