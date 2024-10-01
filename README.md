@@ -63,12 +63,21 @@ If you are processing data using your own pipeline, your need to make sure that 
 
 When loading data, the network's code will test, by default, if any values are outside [-1, 1] and if the median ~= 0. However, it will not know if the ECG is scaled inappropriately (such as heartbeats being too large or too small). 
 
-**I never tested the effects of scaling the data differently than the pipeline that I used in the paper and have provided here. Therefore, I make no claims that the scoring performance will be equivalent if you use a different pipeline.**
-
 The figure below should hopefully make the above ECG requirements clearer.
 
 ![Expected Network Input](docs/assets/beat_voltage_diagram.png?raw=true)
 
+#### Additional ECG scaling information
+
+ I can say that the network is very robust to scaling from 0.5x to 2.0x of the "correct" amplitude (using the full pipeline that was used in the paper, and is included here).
+
+| Ratio of ECG amplitude | Kappa ratio |
+| ----- | ----- |
+| 0.5 | 0.990 |
+| 1.0 ("correct" amplitude) | 1.000 |
+| 2.0 | 0.993 |
+
+TL;DR: As long as your scaling is roughly as I describe above (and you did all of the other filtering correctly), you can be confident that the results will be the same.
 
 ### Sleep stage scoring (primary or real-time model)
 
@@ -81,6 +90,14 @@ python train.py your_datafile.h5
 ```
 
 The `your_datafile.h5` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.h5` file in the same folder.
+
+#### Using CUDA or CPU or MPS
+
+In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms. I will update this further when I have a better idea of what is happening. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
+
+- **CUDA**: This is what the model was trained and evaluated on.
+- **CPU**: This works, but the kappas are slightly lower (on average).
+- **MPS**: This does not work, and often produces all nans in the output.
 
 #### Primary model without demographics (new)
 
