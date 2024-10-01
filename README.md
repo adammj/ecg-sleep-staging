@@ -96,8 +96,31 @@ The `your_datafile.h5` can either be in the same folder, or elsewhere (as long a
 In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms. I will update this further when I have a better idea of what is happening. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
 
 - **CUDA**: This is what the model was trained and evaluated on.
-- **CPU**: This works, but the kappas are slightly lower (on average).
+- **CPU**: This works, but the kappas are slightly lower on average (by 0.001, or -0.2%).
 - **MPS**: This does not work, and often produces all nans in the output.
+
+**Same predictions for CUDA & CPU (testing set)**
+
+Overall, 98.2% of the 571,141 scored epochs in the testing set have the same prediction when scored on either CUDA or the CPU.
+
+| Statistic | Percent same prediction per recording |
+| ----- | ----- |
+| Max | 99.9% |
+| Median | 98.4% |
+| Mean | 98.2% |
+| Min | 94.2% |
+
+**Median and Mean kappas for CUDA & CPU (testing set)**
+The CUDA values are reported in Paper (Supplementary Table S7).
+
+|  | Overall | Wake | N1 | N2 | N3 | REM |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| Median of recordings | | | | | |
+| CUDA | 0.725 | 0.871 | 0.326 | 0.682 |0.625 | 0.825 |
+| CPU | 0.724 | 0.868 | 0.327 | 0.674 | 0.630 | 0.826 |
+| Mean of recordings | | | | | |
+| CUDA | 0.697 | 0.830 | 0.333 | 0.651 | 0.505 | 0.777 |
+| CPU | 0.694 | 0.829 | 0.331 | 0.646 | 0.508 | 0.775 |
 
 #### Primary model without demographics (new)
 
