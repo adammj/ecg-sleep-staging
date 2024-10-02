@@ -69,15 +69,12 @@ The figure below should hopefully make the above ECG requirements clearer.
 
 #### Additional ECG scaling information
 
- I can say that the network is very robust to scaling from 0.5x to 2.0x of the "correct" amplitude (using the full pipeline that was used in the paper, and is included here). However, I will come back later with more comprehensive results.
+ The network is robust to scaling from 0.5x to 2.0x of the "correct" scale (using the full pipeline that was used in the paper, and is included here).
 
-| Ratio of ECG amplitude | Kappa ratio |
-| ----- | ----- |
-| 0.5 | 0.990 |
-| 1.0 ("correct" amplitude) | 1.000 |
-| 2.0 | 0.993 |
+![Performance vs ECG scale](docs/assets/figure_scale.png?raw=true)
 
-TL;DR: As long as your scaling is roughly as I describe above (and you did all of the other filtering correctly), you can be confident that the results will be the same.
+
+**TL;DR**: As long as your scaling is roughly as I describe above (and you did all of the other filtering correctly), you can be confident that the results will be the same.
 
 ### Sleep stage scoring (primary or real-time model)
 
@@ -93,15 +90,15 @@ The `your_datafile.h5` can either be in the same folder, or elsewhere (as long a
 
 #### Using CUDA or CPU or MPS
 
-In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms. I will update this further when I have a better idea of what is happening. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
+In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms. I will update this further when I have a more details. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
 
 - **CUDA**: This is what the model was trained and evaluated on.
-- **CPU**: This works, but the kappas are slightly lower on average (by 0.001, or -0.2%).
+- **CPU**: This works, but the kappas are slightly lower on average (by -0.001, or -0.2%).
 - **MPS**: This does not work, and often produces all nans in the output.
 
 **Same predictions for CUDA & CPU (testing set)**
 
-Overall, 98.2% of the 571,141 scored epochs in the testing set have the same prediction when scored on either CUDA or the CPU.
+Overall, 98.2% of the 571,141 scored epochs in the testing set have the same prediction when inference is performed on either CUDA or CPU.
 
 | Statistic | Percent same prediction per recording |
 | ----- | ----- |
