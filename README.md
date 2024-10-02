@@ -90,7 +90,7 @@ The `your_datafile.h5` can either be in the same folder, or elsewhere (as long a
 
 #### Using CUDA or CPU or MPS
 
-In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms. I will update this further when I have a more details. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
+In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms, and I will update this further when I have more details. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
 
 - **CUDA**: This is what the model was trained and evaluated on.
 - **CPU**: This works, but the kappas are slightly lower on average (by -0.001, or -0.2%).
