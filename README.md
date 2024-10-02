@@ -17,7 +17,10 @@ Also, make sure to check out the website, <https://cardiosomnography.com>, as I'
 3. [Benchmark dataset](#benchmark-dataset)
 4. [Loss function](#loss-function)
 5. [Paper replication](#paper-replication)
-6. [Requirements](#requirements)
+6. [Using CUDA or CPU or MPS](#using-cuda-or-cpu-or-mps)
+7. [Requirements](#requirements)
+8. [Paper links](#paper-links)
+9. [Contact](#contact)
 
 ---
 
@@ -46,7 +49,7 @@ While all of the code that was used for everything described in the paper is in 
 To process your own data, you can take it through that same pipeline (either a file at a time or many files simultaneously). Or, you can instead just extract your own ECG/EKG data and filter it (as described in the paper and in the `Data file description` section below).
 Eventually, I will rewrite the pipeline to accommodate the processing of individual files and convert all MATLAB code to Python. This code will go in the `data_processing` folder (which currently just has a placeholder file).
 
-#### Expectations for ECG input
+### Expectations for ECG input
 
 If you are processing data using your own pipeline, your need to make sure that the final output (the input ECG for the network), matches the expectations listed in the paper. Specifically, the network expects the following:
 
@@ -67,16 +70,15 @@ The figure below should hopefully make the above ECG requirements clearer.
 
 ![Expected Network Input](docs/assets/beat_voltage_diagram.png?raw=true)
 
-#### Additional ECG scaling information
-
- The network is robust to scaling from 0.5x to 2.0x of the "correct" scale (using the full pipeline that was used in the paper, and is included here).
+The network is robust to scaling from 0.5x to 2.0x of the "correct" scale (using the full pipeline that was used in the paper, and is included here).
 
 ![Performance vs ECG scale](docs/assets/figure_scale.png?raw=true)
 
+**TL;DR**: As long as your scaling is roughly as I describe above (and you did all of the other filtering correctly), you can be confident that the results will be the nearly identical.
 
-**TL;DR**: As long as your scaling is roughly as I describe above (and you did all of the other filtering correctly), you can be confident that the results will be the same.
+### Sleep stage scoring models
 
-### Sleep stage scoring (primary or real-time model)
+#### Primary or Real-Time model
 
 There is a folder for each model: `primary` and `real-time`. They are completely self-contained, and, as a consequence, are almost exact duplicates. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
 
@@ -87,37 +89,6 @@ python train.py your_datafile.h5
 ```
 
 The `your_datafile.h5` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.h5` file in the same folder.
-
-#### Using CUDA or CPU or MPS
-
-In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms, and I will update this further when I have more details. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
-
-- **CUDA**: This is what the model was trained and evaluated on.
-- **CPU**: This works, but the kappas are slightly lower on average (by -0.001, or -0.2%).
-- **MPS**: This does not work, and often produces all nans in the output.
-
-**Same predictions for CUDA & CPU (testing set)**
-
-Overall, 98.2% of the 571,141 scored epochs in the testing set have the same prediction when inference is performed on either CUDA or CPU.
-
-| Statistic | Percent same prediction per recording |
-| ----- | ----- |
-| Max | 99.9% |
-| Median | 98.4% |
-| Mean | 98.2% |
-| Min | 94.2% |
-
-**Median and Mean kappas for CUDA & CPU (testing set)**
-The CUDA values are reported in Paper (Supplementary Table S7).
-
-|  | Overall | Wake | N1 | N2 | N3 | REM |
-| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| Median of recordings | | | | | |
-| CUDA | 0.725 | 0.871 | 0.326 | 0.682 |0.625 | 0.825 |
-| CPU | 0.724 | 0.868 | 0.327 | 0.674 | 0.630 | 0.826 |
-| Mean of recordings | | | | | |
-| CUDA | 0.697 | 0.830 | 0.333 | 0.651 | 0.505 | 0.777 |
-| CPU | 0.694 | 0.829 | 0.331 | 0.646 | 0.508 | 0.775 |
 
 #### Primary model without demographics (new)
 
@@ -202,6 +173,39 @@ All of the code and intermediate results that were used to evaluate the final mo
 3. **3_figures**
    - All of the figure files (Jupyter notebooks and one Keynote file). Each notebook will produce a PDF and PNG file for each figure.
    - The scatter plot in Figure 8 requires a large (280MB) file, `tsne_results.mat`. It was not uploaded due to GitHub limitations. Please contact me if you would like a copy of the file.
+
+---
+
+## Using CUDA or CPU or MPS
+
+In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms, and I will update this further when I have more details. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
+
+- **CUDA**: This is what the model was trained and evaluated on.
+- **CPU**: This works, but the kappas are slightly lower on average (by -0.001, or -0.2%).
+- **MPS**: This does not work, and often produces all nans in the output.
+
+**Same predictions for CUDA & CPU (testing set)**
+
+Overall, 98.2% of the 571,141 scored epochs in the testing set have the same prediction when inference is performed on either CUDA or CPU.
+
+| Statistic | Percent same prediction per recording |
+| ----- | ----- |
+| Max | 99.9% |
+| Median | 98.4% |
+| Mean | 98.2% |
+| Min | 94.2% |
+
+**Median and Mean kappas for CUDA & CPU (testing set)**
+The CUDA values are reported in Paper (Supplementary Table S7).
+
+|  | Overall | Wake | N1 | N2 | N3 | REM |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| Median of recordings | | | | | |
+| CUDA | 0.725 | 0.871 | 0.326 | 0.682 |0.625 | 0.825 |
+| CPU | 0.724 | 0.868 | 0.327 | 0.674 | 0.630 | 0.826 |
+| Mean of recordings | | | | | |
+| CUDA | 0.697 | 0.830 | 0.333 | 0.651 | 0.505 | 0.777 |
+| CPU | 0.694 | 0.829 | 0.331 | 0.646 | 0.508 | 0.775 |
 
 ---
 
