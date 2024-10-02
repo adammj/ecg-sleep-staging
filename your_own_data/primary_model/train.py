@@ -393,13 +393,12 @@ class SleepNetExperiment:
         )
         confusions = self.eval_set.get_all_subject_confusions().numpy()
         predictions = self.eval_set.get_all_subject_predictions().numpy()
-        if not self.save_results_and_exit:
-            train_subject_weights = self.train_set.get_all_subject_weights().numpy()
         
         with h5.File("results.h5", "w") as file_h:
             file_h.create_dataset("confusions", data=confusions)
             file_h.create_dataset("predictions", data=predictions)
             if not self.save_results_and_exit:
+                train_subject_weights = self.train_set.get_all_subject_weights().numpy()
                 file_h.create_dataset("train_subject_weights", data=train_subject_weights)
 
     def run_main_loop(self) -> None:
