@@ -184,7 +184,9 @@ In running the scaling tests described above, I noticed some differences when ru
 - **CPU**: This works, but the kappas are slightly lower on average (by -0.003, or -0.3%).
 - **MPS**: This works, but the kappas are slightly lower on average (by -0.003, or -0.3%).
 
-Interestingly, the CPU and MPS results are nearly identical to each other. Only 8 of the 500 recordings in the testing set had different predictions between those two backends, and it was for only one epoch in each of those recordings.
+Interestingly, the CPU and MPS results are nearly identical to each other. Only 8 of the 500 recordings in the testing set had different predictions between those two backends, and it was for only one epoch in each of those recordings. 
+
+(FYI: This is probably because I tested both on the same M1 MacBook Air. However, I would expect slightly different CPU results if I ran it on an Intel processor, for instance. This all comes down to differences in and tradeoffs made with different floating point representations and calculations. Although the CPU/MPS results are slightly below on one processor and compiled library combination, they could easily be higher on another. And these differences are not even approaching significance.)
 
 **Same stage predictions for testing set**
 
