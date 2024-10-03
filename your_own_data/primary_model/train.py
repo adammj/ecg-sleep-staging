@@ -18,6 +18,10 @@
 """
 
 import os
+
+# must set variable beforehand
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
+
 import random
 import sys
 import time
@@ -53,7 +57,6 @@ stats_precision = 3
 np.set_printoptions(precision=stats_precision, suppress=True, floatmode="fixed")
 
 # set everything to be deterministic
-os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"  # must set variable beforehand
 torch.use_deterministic_algorithms(True)
 # When running on the CuDNN backend, two further options must be set
 torch.backends.cudnn.benchmark = False  # type: ignore

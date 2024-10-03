@@ -17,8 +17,12 @@
 """ This file is for all miscellaneous functions needed for the training or network code.
 """
 
-import json
 import os
+
+# must set variable beforehand
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+
+import json
 import subprocess
 
 import torch
@@ -28,8 +32,6 @@ from torch.optim import Optimizer
 
 if torch.cuda.is_available():
     from gpustat import GPUStatCollection
-
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
 
 def get_lr(optimizer: Optimizer) -> float:
