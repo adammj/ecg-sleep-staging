@@ -178,34 +178,38 @@ All of the code and intermediate results that were used to evaluate the final mo
 
 ## Using CUDA or CPU or MPS
 
-In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). This opened a can of worms, and I will update this further when I have more details. For now, understand that the results will be different if you are not running on an NVIDIA GPU with CUDA.
+In running the scaling tests described above, I noticed some differences when running the model on CUDA vs CPU vs MPS (Apple GPUs). The results are nearly identical, but understand that the results will be slightly different if you are not running on an NVIDIA GPU with CUDA.
 
 - **CUDA**: This is what the model was trained and evaluated on.
-- **CPU**: This works, but the kappas are slightly lower on average (by -0.001, or -0.2%).
-- **MPS**: This does not work, and often produces all nans in the output.
+- **CPU**: This works, but the kappas are slightly lower on average (by -0.003, or -0.3%).
+- **MPS**: This works, but the kappas are slightly lower on average (by -0.003, or -0.3%).
 
-**Same predictions for CUDA & CPU (testing set)**
+Interestingly, the CPU and MPS results are nearly identical to each other. Only 8 of the 500 recordings in the testing set had different predictions between those two backends, and it was for only one epoch in each of those recordings.
 
-Overall, 98.2% of the 571,141 scored epochs in the testing set have the same prediction when inference is performed on either CUDA or CPU.
+**Same stage predictions for testing set**
 
-| Statistic | Percent same prediction per recording |
-| ----- | ----- |
-| Max | 99.9% |
-| Median | 98.4% |
-| Mean | 98.2% |
-| Min | 94.2% |
+Overall, 98.2% of the 571,141 scored epochs in the testing set have the same prediction when inference is performed on CUDA versus CPU/MPS. As stated above, there were only 8 epochs of the 571,141 scored epochs where the CPU and MPS predictions differed.
 
-**Median and Mean kappas for CUDA & CPU (testing set)**
+| Statistic | Same (CUDA v CPU) |  Same (CUDA v MPS) |
+| ----- | ----- | ----- |
+| Max | 99.9% | 99.9%  |
+| Median | 98.4% | 98.4% |
+| Mean | 98.2% | 98.2% |
+| Min | 94.2% | 94.2% |
+
+**Median and Mean kappas for testing set**
 The CUDA values are reported in Paper (Supplementary Table S7).
 
 |  | Overall | Wake | N1 | N2 | N3 | REM |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| Median of recordings | | | | | |
+| **Median** of recordings | | | | | |
 | CUDA | 0.725 | 0.871 | 0.326 | 0.682 |0.625 | 0.825 |
 | CPU | 0.724 | 0.868 | 0.327 | 0.674 | 0.630 | 0.826 |
-| Mean of recordings | | | | | |
+| MPS | 0.724 | 0.868 | 0.327 | 0.674 | 0.630 | 0.826 |
+| **Mean** of recordings | | | | | |
 | CUDA | 0.697 | 0.830 | 0.333 | 0.651 | 0.505 | 0.777 |
 | CPU | 0.694 | 0.829 | 0.331 | 0.646 | 0.508 | 0.775 |
+| MPS | 0.694 | 0.829 | 0.331 | 0.646 | 0.508 | 0.775 |
 
 ---
 
