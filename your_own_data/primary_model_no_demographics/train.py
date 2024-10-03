@@ -204,17 +204,23 @@ class SleepNetExperiment:
         # set default device to cpu
         device = torch.device("cpu")
 
-        # assumes using gpu (find the first with at least enough free memory)
-        if torch.cuda.is_available():
-            device = return_available_gpu()
+        if self.train_params["device"] == "cuda":
+            # assumes using gpu (find the first with at least enough free memory)
+            if torch.cuda.is_available():
+                device = return_available_gpu()
 
-            if device.type == "cuda":
-                torch.cuda.set_device(device)
+                if device.type == "cuda":
+                    torch.cuda.set_device(device)
+                else:
+                    print("no available gpu found, using cpu")
+
             else:
-                print("no available gpu found, using cpu")
-
-        else:
-            print("cuda is not available, using cpu")
+                print("cuda is not available, using cpu")
+        elif self.train_params["device"] == "mps":
+            if torch.backends.mps.is_available() and torch.backends.mps.is_built():
+                device = torch.device("mps")
+            else:
+                print("mps not available, using cpu")
 
         print("using device: ", device)
         self.device = device
@@ -262,7 +268,7 @@ class SleepNetExperiment:
                 shuffle=True,
                 num_workers=self.train_params["num_workers"],
                 collate_fn=sleepnet_collate,
-                pin_memory=True,
+                pin_memory=(self.device.type == "cuda"),
                 worker_init_fn=seed_init_fn,
             )
 
@@ -273,7 +279,7 @@ class SleepNetExperiment:
             shuffle=False,
             num_workers=self.train_params["num_workers"],
             collate_fn=sleepnet_collate,
-            pin_memory=True,
+            pin_memory=(self.device.type == "cuda"),
             worker_init_fn=seed_init_fn,
         )
 

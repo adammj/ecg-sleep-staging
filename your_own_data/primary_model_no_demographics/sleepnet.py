@@ -660,12 +660,15 @@ class SleepNet(Module):
 def move_tensors_to_device(data_dict: dict, device: torch.device) -> dict:
     """move all tensors in dict to device"""
 
+    if device.type == "cpu":
+        return data_dict
+    
     tensor_list = ["ecgs", "additional", "padding_eliminator", "stages", "weights"]
     for key in tensor_list:
-        data_dict[key] = data_dict[key].to(device, non_blocking=True)
+        data_dict[key] = data_dict[key].to(device, non_blocking=(device.type == "cuda"))
 
     # wait for everything to finish (to get more accurate times)
-    if torch.cuda.is_available():
+    if device.type == "cuda":
         torch.cuda.synchronize()
 
     return data_dict

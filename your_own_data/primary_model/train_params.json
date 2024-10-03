@@ -32,5 +32,6 @@
   "train_invert_ecg": true,
   "num_workers": 6,
   "log_file": "log.json",
-  "validate_ecg": true
+  "validate_ecg": true,
+  "device": "cpu"
 }
