@@ -200,6 +200,8 @@ class SleepSubject(object):
                 sample = load_sample_from_file(file_h, self.is_training)
                 # make sure sample can be located
                 sample.update({"subject_filename": self.filename})
+        
+        sample.update({"stages": self.target_stages.clone()})
 
         # add keys not in original dataset files
         sample.update({"dataset_number": self.dataset_number})

@@ -54,14 +54,14 @@ def load_sample_from_file(file_h: h5.File, is_training: bool = True) -> dict:
     demographics = torch.randn(2)  # load random demographics (ignore file contents)
     midnight_offset = torch.Tensor(file_h["midnight_offset"][()]).squeeze()  # type: ignore
 
+    # stages was already loaded (or faked) when file was validated
+
     if is_training:
         # loss requires long for stages
-        stages = torch.LongTensor(file_h["stages"][()])  # type: ignore
         weights = torch.Tensor(file_h["weights"][()])  # type: ignore
     else:
         # if not training, the variables may not exist in the file
         # and should not be used anyways
-        stages = torch.zeros((ecgs.shape[0]), dtype=epoch_count.dtype)
         weights = torch.ones((ecgs.shape[0]), dtype=ecgs.dtype)
 
     # create the sample after closing the file
@@ -69,7 +69,6 @@ def load_sample_from_file(file_h: h5.File, is_training: bool = True) -> dict:
         "epoch_count": epoch_count,
         "ecgs": ecgs,
         "demographics": demographics,
-        "stages": stages,
         "weights": weights,
         "midnight_offset": midnight_offset,
     }
