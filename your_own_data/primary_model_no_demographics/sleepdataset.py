@@ -31,6 +31,7 @@ from torch import Tensor
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
+FILE_EXTENSION = ".h5"
 
 class SleepSubject(object):
     """Holds a single subject. Handles data loading and caching."""
@@ -91,8 +92,8 @@ class SleepSubject(object):
         if pickle_version and (not self.pickle_path is None):
             file_name = self.pickle_path + self.filename + ".pkl"
         else:
-            file_name = self.original_path + self.filename + ".h5"
-            file_name = file_name.replace(".h5.h5", ".h5")
+            file_name = self.original_path + self.filename + FILE_EXTENSION
+            file_name = file_name.replace(FILE_EXTENSION + FILE_EXTENSION, FILE_EXTENSION)
         return file_name
 
     def check_ecg_variable(self, ecgs: Tensor | np.ndarray):
