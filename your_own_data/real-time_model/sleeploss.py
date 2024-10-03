@@ -83,7 +83,7 @@ class SleepLoss(_WeightedLoss):
     ) -> Tensor:
         """pytorch forward call"""
 
-        # copy the weights across rows
+        # expand the weights across rows
         epoch_weights = epoch_weights.unsqueeze(1).expand(-1, self.stage_count)
 
         # multiply the input by the weights

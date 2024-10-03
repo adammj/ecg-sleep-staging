@@ -183,6 +183,7 @@ def sleepnet_collate(batch: list) -> dict:
         "subject_filenames": subject_filenames,
         "load_times": load_times,
         "padding_eliminator": padding_eliminator_tensor,
+        "dataset_number": dataset_number,
     }
 
     t_end = time.perf_counter()
@@ -668,16 +669,3 @@ def move_tensors_to_device(data_dict: dict, device: torch.device) -> dict:
         torch.cuda.synchronize()
 
     return data_dict
-
-
-def sleepnet_load_and_forward_pass(batch_data: dict, device, model: Module) -> Tensor:
-    """function to extract relevant information from batch_data, move to gpu, and run the forward pass"""
-
-    ecgs = batch_data["ecgs"].to(device, non_blocking=True)
-    additional = batch_data["additional"].to(device, non_blocking=True)
-    padding_eliminator = batch_data["padding_eliminator"].to(device, non_blocking=True)
-
-    # forward pass
-    model_output, _ = model(ecgs, additional, padding_eliminator)
-
-    return model_output
