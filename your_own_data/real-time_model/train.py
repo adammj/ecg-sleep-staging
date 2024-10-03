@@ -270,6 +270,7 @@ class SleepNetExperiment:
                 collate_fn=sleepnet_collate,
                 pin_memory=(self.device.type == "cuda"),
                 worker_init_fn=seed_init_fn,
+                persistent_workers=(self.train_params["num_workers"] > 0),
             )
 
         # evaluation loader is given batch_size = 1 to make sure that results are always reproducible
@@ -281,6 +282,7 @@ class SleepNetExperiment:
             collate_fn=sleepnet_collate,
             pin_memory=(self.device.type == "cuda"),
             worker_init_fn=seed_init_fn,
+            persistent_workers=(self.train_params["num_workers"] > 0),
         )
 
     def create_model(self) -> None:
@@ -449,11 +451,12 @@ class SleepNetExperiment:
 
                 if epoch_i == 0:
                     print("first epoch, just get stats")
-                    self.train_stats = self.train_or_eval(
-                        False,
-                        self.train_loader,
-                        self.train_set,
-                    )
+                    with torch.inference_mode():
+                        self.train_stats = self.train_or_eval(
+                            False,
+                            self.train_loader,
+                            self.train_set,
+                        )
                 else:
                     self.train_stats = self.train_or_eval(
                         True,
@@ -465,11 +468,12 @@ class SleepNetExperiment:
             # start evaluating
             print("evaluating... ")
 
-            self.eval_stats = self.train_or_eval(
-                False,
-                self.eval_loader,
-                self.eval_set,
-            )
+            with torch.inference_mode():
+                self.eval_stats = self.train_or_eval(
+                    False,
+                    self.eval_loader,
+                    self.eval_set,
+                )
             epoch_stats.val_stats = self.eval_stats
 
             # save and exit
