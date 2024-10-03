@@ -667,8 +667,10 @@ def move_tensors_to_device(data_dict: dict, device: torch.device) -> dict:
     for key in tensor_list:
         data_dict[key] = data_dict[key].to(device, non_blocking=(device.type == "cuda"))
 
-    # wait for everything to finish (to get more accurate times)
+    # wait for everything to finish
     if device.type == "cuda":
         torch.cuda.synchronize()
+    elif device.type == "mps":
+        torch.mps.synchronize()
 
     return data_dict
