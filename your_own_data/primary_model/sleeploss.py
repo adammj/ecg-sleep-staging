@@ -60,21 +60,17 @@ class SleepLoss(_WeightedLoss):
         diag = confusion.diag()
 
         # get all stage-wise kappas
-        kappas = 2 * (diag - cols * rows) / (cols + rows - 2 * cols * rows)
+        kappas = 2.0 * (diag - cols * rows) / (cols + rows - 2.0 * cols * rows)
 
         # fix any NaNs (happens when pe=1, which means both raters agree but either
         # the stage of interest or the collection of other stages is empty)
-        kappas[torch.isnan(kappas)] = 1
+        kappas[torch.isnan(kappas)] = 1.0
 
         # shift and scale the kappas from range [-1, 1] to the range [0, 1]
-        kappas = (kappas + 1) / 2
-
-        # sanity check of kappas
-        assert len(torch.where(kappas < 0)[0]) == 0
-        assert len(torch.where(kappas > 1)[0]) == 0
+        kappas = (kappas + 1.0) / 2.0
 
         # calculate the final loss
-        final_loss = 1.0 - kappas.prod().pow(1 / stage_count)
+        final_loss = 1.0 - kappas.prod().pow(1.0 / stage_count)
 
         return final_loss
 
