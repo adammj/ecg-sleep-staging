@@ -108,30 +108,38 @@ class SleepSubject(object):
         if ecgs.shape[0] == 0:
             raise ValueError("ecgs should have at least 1 epoch of data")
 
-        if ecgs.shape[1] != 7680:
+        value = ecgs.shape[1]
+        if value != 7680:
             raise ValueError(
-                "ecgs second dimension should be exactly 7680 (30sec * 256Hz)"
+                "ecgs second dimension should be exactly 7680 (30sec * 256Hz), but" +
+                f"is {value}"
             )
 
         if torch.is_tensor(ecgs):
-            if torch.min(ecgs) < -1:
-                raise ValueError("no value in ecgs should be below -1")
+            value = torch.min(ecgs)
+            if value < -1:
+                raise ValueError(f"no value in ecgs should be below -1 (found: {value})")
 
-            if torch.max(ecgs) > 1:
-                raise ValueError("no value in ecgs should be above 1")
+            value = torch.max(ecgs)
+            if value > 1:
+                raise ValueError(f"no value in ecgs should be above 1 (found: {value})")
 
-            if torch.abs(torch.median(ecgs)) > 0.001:
-                raise ValueError("median of ecgs should be ~ 0")
+            value = torch.abs(torch.median(ecgs))
+            if value > 0.001:
+                raise ValueError(f"median of ecgs should be ~0 (found: {value})")
 
         else:
-            if np.min(ecgs) < -1:
-                raise ValueError("no value in ecgs should be below -1")
+            value = np.min(ecgs)
+            if value < -1:
+                raise ValueError(f"no value in ecgs should be below -1 (found: {value})")
 
-            if np.max(ecgs) > 1:
-                raise ValueError("no value in ecgs should be above 1")
+            value = np.max(ecgs)
+            if value > 1:
+                raise ValueError(f"no value in ecgs should be above 1 (found: {value})")
 
-            if np.abs(np.median(ecgs)) > 0.001:
-                raise ValueError("median of ecgs should be ~ 0")
+            value = np.abs(np.median(ecgs))
+            if value > 0.001:
+                raise ValueError(f"median of ecgs should be ~0 (found: {value})")
 
     def try_to_load_file(self, use_pickled_file: bool, silent_missing: bool = False):
         """check if file exists and load some data from the file"""
@@ -142,46 +150,56 @@ class SleepSubject(object):
                 print(file_name + " is missing")
             return False
         else:
-            try:
-                if not use_pickled_file:
-                    with h5.File(file_name, "r") as file_h:
-                        if self.validate_ecg:
-                            self.check_ecg_variable(file_h["ecgs"][()])  # type: ignore
+            if not use_pickled_file:
+                try:
+                    file_h = h5.File(file_name, "r")
+                except Exception:
+                    print(file_name + " is broken")
+                    return False
 
-                        if self.is_training:
-                            # if training, load the actual stages variable
-                            stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
-                        else:
-                            # otherwise, create a dummy stages tensor
-                            stages_tensor = torch.zeros(
-                                (file_h["ecgs"].shape[0], 1),  # type: ignore
-                                dtype=torch.long,
-                            )
+                if self.validate_ecg:
+                    self.check_ecg_variable(file_h["ecgs"][()])  # type: ignore
 
-                        self.epoch_count = stages_tensor.shape[0]
-                        self.target_stages = stages_tensor.squeeze()
-                        self.target_stages = combine_stages(
-                            self.target_stages, self.stage_count
-                        )
-
-                    return True
+                if self.is_training:
+                    # if training, load the actual stages variable
+                    stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
                 else:
-                    with open(file_name, "rb") as file_h:
-                        sample = pickle.load(file_h)
-                        if self.validate_ecg:
-                            self.check_ecg_variable(sample["ecgs"])
+                    # otherwise, create a dummy stages tensor
+                    stages_tensor = torch.zeros(
+                        (file_h["ecgs"].shape[0], 1),  # type: ignore
+                        dtype=torch.long,
+                    )
 
-                        self.epoch_count = sample["epoch_count"]
-                        self.target_stages = sample["stages"].squeeze()
-                        self.target_stages = combine_stages(
-                            self.target_stages, self.stage_count
-                        )
+                self.epoch_count = stages_tensor.shape[0]
+                self.target_stages = stages_tensor.squeeze()
+                self.target_stages = combine_stages(
+                    self.target_stages, self.stage_count
+                )
 
-                    return True
+                # close before returning
+                file_h.close()
 
-            except Exception:
-                print(file_name + " is broken")
-                return False
+                return True
+            else:
+                try:
+                    file_h = open(file_name, "rb")
+                except Exception:
+                    print(file_name + " is broken")
+                    return False
+                sample = pickle.load(file_h)
+                if self.validate_ecg:
+                    self.check_ecg_variable(sample["ecgs"])
+
+                self.epoch_count = sample["epoch_count"]
+                self.target_stages = sample["stages"].squeeze()
+                self.target_stages = combine_stages(
+                    self.target_stages, self.stage_count
+                )
+
+                # close before returning
+                file_h.close()
+
+                return True
 
     def get_data(self):
         # cannot update any variables within here, as they are across threads
