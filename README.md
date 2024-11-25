@@ -26,22 +26,9 @@ Also, make sure to check out the website, <https://cardiosomnography.com>, as I'
 
 ## Sleep scoring your own data
 
-To get this into the hands of others and in use as soon as possible, there is a separate folder structure just for new and future users (verses documenting what was done for the paper, below).
+To get this into the hands of others and in use as soon as possible, there is a separate folder structure just for new and future users (verses documenting what was done for the paper, further below).
 
-### ECG Equipment
-
-Unfortunately, there are few commercial ECG recording devices on the market right now. I am only aware of two devices that could possibly work and be worn comfortably while asleep. However, I have not personally tried either yet, so I cannot vouch for them. ([Update](<https://cardiosomnography.com/sensor/app/testing-sensors/>): I have now begun testing them.)
-
-- [Movesense](<https://www.movesense.com/>)
-    - The [sampling rates](<https://www.movesense.com/docs/esw/api_reference/>) are: 125, 128, 200, 250, 256, 500, and 512 Hz.
-- [Polar H10](<https://www.polar.com/us-en/sensors/h10-heart-rate-sensor/>)
-    - The [sampling rate](<https://github.com/polarofficial/polar-ble-sdk>) is: 130 Hz.
-
-However, if you are using clinical or research ECG equipment to record ECG there are a few important details to keep in mind:
-
-- The recording should be of Lead I (limb lead across the heart). See [ECG Lead positioning](https://litfl.com/ecg-lead-positioning/) for the proper locations of the "RA" and "LA" electrodes.
-- The sampling rate should be a minimum of 125 Hz. Higher is better, with the "optimal" rate for the network's input being 256 Hz.
-- The sampling resolution should be a minimum of 16 bits. Higher is better.
+**Please read the [Requirements](<https://cardiosomnography.com/requirements/>) page** on the website for more details on the ECG requirements—especially if you have a background in machine learning and think that ECG is just a 1D image.
 
 ### Data processing
 
@@ -52,6 +39,8 @@ Eventually, I will rewrite the pipeline to accommodate the processing of individ
 ### Expectations for ECG input
 
 If you are processing data using your own pipeline, your need to make sure that the final output (the input ECG for the network), matches the expectations listed in the paper. Specifically, the network expects the following:
+
+**To repeat**, if you do not use the correct pipeline to prepare your data, I can make no claims about the network's ability to score sleep on your data.
 
 1. Noise has been filtered:
     - High-pass filtered at 0.5 Hz to remove baseline wander.
@@ -64,17 +53,10 @@ If you are processing data using your own pipeline, your need to make sure that 
     - Regardless of abnormally "tall" heartbeats or noise, all values should be clamped to [-1, 1].
 4. Finally, divided/reshaped into 30-second epochs (shape: epoch_count x 7680).
 
-When loading data, the network's code will test, by default, if any values are outside [-1, 1] and if the median ~= 0. However, it will not know if the ECG is scaled inappropriately (such as heartbeats being too large or too small). 
+When loading data, the network's code will test, by default, if any values are outside [-1, 1] and if the median ~= 0. However, it will not know if the ECG is scaled inappropriately (such as heartbeats being too large or too small).
 
-The figure below should hopefully make the above ECG requirements clearer.
+Again, please see the [Requirements](<https://cardiosomnography.com/requirements/>) page on the website for more details.
 
-![Expected Network Input](docs/assets/beat_voltage_diagram.png?raw=true)
-
-The network is robust to scaling from 0.5x to 2.0x of the "correct" scale (using the full pipeline that was used in the paper, and is included here).
-
-![Performance vs ECG scale](docs/assets/figure_scale.png?raw=true)
-
-**TL;DR**: As long as your scaling is roughly as I describe above (and you did all of the other filtering correctly), you can be confident that the results will be the nearly identical.
 
 ### Sleep stage scoring models
 
@@ -147,7 +129,7 @@ The study included training, validating, and testing on a dataset of 4,000 recor
 
 And, please, for the sake of proper and valid science, **DO NOT** test against the testing set until **after** you have selected your final model. So many papers mess this up. If you are using the testing set to choose which model to use, you are leaking data that is supposed to represent the model's performance on an unbiased, unseen, dataset back into the development of the model. **If you do this, your results are sus**.
 
-### benchmark dataset
+### Benchmark dataset folder:
 
 - `main_sets.xlsx` contains the listing for the train, validation, and testing sets
 - `heldout_set.xlsx` contains the listing for the held-out study
