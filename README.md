@@ -28,7 +28,7 @@ Also, make sure to check out the website, <https://cardiosomnography.com>, as I'
 
 To get this into the hands of others and in use as soon as possible, there is a separate folder structure just for new and future users (verses documenting what was done for the paper, further below).
 
-**Please read the [Requirements](<https://cardiosomnography.com/requirements/>) page** on the website for more details on the ECG requirements—especially if you have a background in machine learning and think that ECG is just a 1D image.
+**Please read the [Requirements](<https://cardiosomnography.com/requirements/>) page** on the website for more details on the ECG requirements—especially if you have a background in machine learning and view ECG as merely a 1D image, or if you assume this model relies on HRV.
 
 ### Data processing
 
