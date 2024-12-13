@@ -8,7 +8,7 @@ If you find this repository helpful, please cite the paper:
 
 > Adam M. Jones, Laurent Itti, Bhavin R. Sheth, "Expert-level sleep staging using an electrocardiography-only feed-forward neural network," Computers in Biology and Medicine, 2024, doi: 10.1016/j.compbiomed.2024.108545
 
-Also, make sure to check out the website, <https://cardiosomnography.com>, as I'm keeping a blog for updates there.
+Also, make sure to check out the website, [cardiosomnography.com](https://cardiosomnography.com), as I'm keeping a blog for updates there.
 
 ---
 
