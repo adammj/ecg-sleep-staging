@@ -84,7 +84,7 @@ class SleepLoss(_WeightedLoss):
 
         # multiply the input by the weights
         # this will automatically ignore bad epochs (with weight = 0)
-        input *= epoch_weights
+        input = input * epoch_weights
 
         # build confusion from each target stage
         # this will automatically ignore any padded stages (with target = -1)
