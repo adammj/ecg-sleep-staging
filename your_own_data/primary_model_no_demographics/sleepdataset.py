@@ -17,7 +17,7 @@
 """This file is for the SleepDataset and SleepSubject classes."""
 
 import os
-import pickle
+import shutil
 import time
 from typing import Tuple
 
@@ -25,13 +25,13 @@ import h5py as h5
 import numpy as np
 import pandas as pd
 import torch
-from sleep_support import combine_stages, confusion_from_lists, kappa, shm_avail_bytes
-from sleepnet import load_sample_from_file
 from torch import Tensor
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
-FILE_EXTENSION = ".h5"
+from sleep_support import combine_stages, confusion_from_lists, kappa, shm_avail_bytes
+from sleepnet import load_sample_from_file
+
 
 class SleepSubject(object):
     """Holds a single subject. Handles data loading and caching."""
@@ -41,8 +41,7 @@ class SleepSubject(object):
         filename: str,
         dataset_index: int,
         original_path: str,
-        pickle_path,
-        dataset_number: int,
+        cache_path: str | None,
         cache_during_creation: bool,
         stage_count: int,
         is_training: bool = True,
@@ -51,19 +50,18 @@ class SleepSubject(object):
         super(SleepSubject, self).__init__()
 
         # data variables
-        self.filename = filename  # w/o extension
+        self.filename = filename  # with extension
         self.original_path = original_path  # original
-        self.pickle_path = pickle_path  # pickled
-        self.is_pickled = False
+        self.cache_path = cache_path  # cached
+        self.is_cached = False
         self.is_training = is_training
         self.validate_ecg = validate_ecg
 
-        # create pickle_path directory, if doesn't exist
-        if pickle_path is not None and not os.path.isdir(pickle_path):
-            os.mkdir(pickle_path)
+        # create cache_path directory, if doesn't exist
+        if cache_path is not None and not os.path.isdir(cache_path):
+            os.mkdir(cache_path)
 
         # misc data about subject
-        self.dataset_number = dataset_number
         self.dataset_index = dataset_index
         self.stage_count = stage_count
         self.epoch_count: int = 0
@@ -73,13 +71,13 @@ class SleepSubject(object):
         self.target_stages = Tensor([])
         self.predicted_stages = Tensor([])
 
-        # try the pickle file first
-        if (pickle_path is not None) and self.try_to_load_file(True, True):
-            self.is_pickled = True
+        # try the cached file first
+        if (cache_path is not None) and self.try_to_load_file(True, True):
+            self.is_cached = True
         else:
             self.try_to_load_file(False)
 
-        if self.is_valid and cache_during_creation and not self.is_pickled:
+        if self.is_valid and cache_during_creation and not self.is_cached:
             self.cache_data()
 
     @property
@@ -87,13 +85,15 @@ class SleepSubject(object):
         """check if subject was validly created"""
         return self.epoch_count > 0
 
-    def full_file_name(self, pickle_version: bool):
+    def full_file_name(self, cache_version: bool):
         """get the file_name based on the type"""
-        if pickle_version and (not self.pickle_path is None):
-            file_name = self.pickle_path + self.filename + ".pkl"
+        if cache_version and (self.cache_path is not None):
+            file_name = self.cache_path
         else:
-            file_name = self.original_path + self.filename + FILE_EXTENSION
-            file_name = file_name.replace(FILE_EXTENSION + FILE_EXTENSION, FILE_EXTENSION)
+            file_name = self.original_path
+
+        file_name += self.filename
+
         return file_name
 
     def check_ecg_variable(self, ecgs: Tensor | np.ndarray):
@@ -141,65 +141,44 @@ class SleepSubject(object):
             if value > 0.001:
                 raise ValueError(f"median of ecgs should be ~0 (found: {value})")
 
-    def try_to_load_file(self, use_pickled_file: bool, silent_missing: bool = False):
+    def try_to_load_file(self, use_cached_file: bool, silent_missing: bool = False):
         """check if file exists and load some data from the file"""
-        file_name = self.full_file_name(use_pickled_file)
+        file_name = self.full_file_name(use_cached_file)
 
         if not os.path.isfile(file_name):
             if not silent_missing:
                 print(file_name + " is missing")
             return False
         else:
-            if not use_pickled_file:
-                try:
-                    file_h = h5.File(file_name, "r")
-                except Exception:
-                    print(file_name + " is broken")
-                    return False
+            try:
+                file_h = h5.File(file_name, "r")
+            except Exception:
+                print(file_name + " is broken")
+                return False
 
-                if self.validate_ecg:
-                    self.check_ecg_variable(file_h["ecgs"][()])  # type: ignore
+            if self.validate_ecg:
+                self.check_ecg_variable(file_h["ecgs"][()])  # type: ignore
 
-                if self.is_training:
-                    # if training, load the actual stages variable
-                    stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
-                else:
-                    # otherwise, create a dummy stages tensor
-                    stages_tensor = torch.zeros(
-                        (file_h["ecgs"].shape[0], 1),  # type: ignore
-                        dtype=torch.long,
-                    )
+            # FIXME: take this bak, or figure out a way to create a stages
+            # tensor if there is none, and to use it if it exists
+            # if self.is_training:
+            # if training, load the actual stages variable
+            stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
+            # else:
+            #     # otherwise, create a dummy stages tensor
+            #     stages_tensor = torch.zeros(
+            #         (file_h["ecgs"].shape[0], 1),  # type: ignore
+            #         dtype=torch.long,
+            #     )
 
-                self.epoch_count = stages_tensor.shape[0]
-                self.target_stages = stages_tensor.squeeze()
-                self.target_stages = combine_stages(
-                    self.target_stages, self.stage_count
-                )
+            self.epoch_count = stages_tensor.shape[0]
+            self.target_stages = stages_tensor.squeeze()
+            self.target_stages = combine_stages(self.target_stages, self.stage_count)
 
-                # close before returning
-                file_h.close()
+            # close before returning
+            file_h.close()
 
-                return True
-            else:
-                try:
-                    file_h = open(file_name, "rb")
-                except Exception:
-                    print(file_name + " is broken")
-                    return False
-                sample = pickle.load(file_h)
-                if self.validate_ecg:
-                    self.check_ecg_variable(sample["ecgs"])
-
-                self.epoch_count = sample["epoch_count"]
-                self.target_stages = sample["stages"].squeeze()
-                self.target_stages = combine_stages(
-                    self.target_stages, self.stage_count
-                )
-
-                # close before returning
-                file_h.close()
-
-                return True
+            return True
 
     def get_data(self):
         # cannot update any variables within here, as they are across threads
@@ -207,22 +186,14 @@ class SleepSubject(object):
         """get the subject data"""
         assert self.is_valid
 
-        if self.is_pickled:
-            file_name = self.full_file_name(True)
-            with open(file_name, "rb") as file_h:
-                sample = pickle.load(file_h)
+        file_name = self.full_file_name(self.is_cached)
+        with h5.File(file_name, "r") as file_h:
+            sample = load_sample_from_file(file_h, self.is_training)
 
-        else:
-            file_name = self.full_file_name(False)
-            with h5.File(file_name, "r") as file_h:
-                sample = load_sample_from_file(file_h, self.is_training)
-                # make sure sample can be located
-                sample.update({"subject_filename": self.filename})
-        
+        # make sure sample can be located
+        sample.update({"subject_filename": self.filename})
+
         sample.update({"stages": self.target_stages.clone()})
-
-        # add keys not in original dataset files
-        sample.update({"dataset_number": self.dataset_number})
 
         return sample
 
@@ -230,11 +201,13 @@ class SleepSubject(object):
         """cache the subject data"""
         assert self.is_valid
 
-        sample = self.get_data()
-        file_name = self.full_file_name(True)
-        with open(file_name, "wb") as file_h:
-            pickle.dump(sample, file_h)
-        self.is_pickled = True
+        original_file_name = self.full_file_name(False)
+        cache_file_name = self.full_file_name(True)
+        shutil.copy2(original_file_name, cache_file_name)
+        if not os.path.isfile(cache_file_name):
+            ValueError("cache file does not exist where it should've been copied")
+
+        self.is_cached = True
 
     def update_prediction(self, predicted_stages: Tensor, weights: Tensor):
         """get the confusion and kappa for the subject"""
@@ -271,13 +244,14 @@ class SleepDataset(Dataset):
         self.train_noise_per = train_params["train_noise_per"]
         self.weight_subjects = train_params["weight_subjects"]
         self.validate_ecg = train_params["validate_ecg"]
+        self.file_extension: str = train_params["file_extension"]
 
         # 1=train, 2=validation, 3=test, 4=train+validation
         if set_type not in [1, 2, 3, 4]:
             raise ValueError("set_type should in [1, 2, 3, 4]")
 
-        # shm/pickle folder
-        self.shm_folder = "/dev/shm/dataset_" + str(self.dataset_number) + "_pickles/"
+        # shm/cache folder
+        self.shm_folder = "/dev/shm/dataset_" + str(self.dataset_number) + "_cached/"
         # check for shm existence, otherwise remove
         if not os.path.isdir("/dev/shm/"):
             self.shm_folder = None
@@ -316,9 +290,12 @@ class SleepDataset(Dataset):
             if set_type == 4:
                 self.filenames = list(
                     sets_df[(sets_df.set == 1) | (sets_df.set == 2)].file
+                    + self.file_extension
                 )
             else:
-                self.filenames = list(sets_df[sets_df.set == set_type].file)
+                self.filenames = list(
+                    sets_df[sets_df.set == set_type].file + self.file_extension
+                )
 
         # extract the relevant data
         self.count = len(self.filenames)  # count returned from the matrix
@@ -346,7 +323,6 @@ class SleepDataset(Dataset):
                         i,
                         self.folder,
                         self.shm_folder,
-                        self.dataset_number,
                         cache_during_creation,
                         self.stage_count,
                         self.is_training,

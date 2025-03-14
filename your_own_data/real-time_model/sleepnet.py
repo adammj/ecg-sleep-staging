@@ -103,7 +103,6 @@ def sleepnet_collate(batch: list) -> dict:
 
     # create empty lists to use
     subject_count = len(batch)
-    dataset_number: int = 0
     subject_filenames: list[str] = []
     epoch_counts: list[Tensor] = []
     ecgs: list[Tensor] = []
@@ -115,8 +114,6 @@ def sleepnet_collate(batch: list) -> dict:
 
     # pad everything to the max epochs, and store pointer in list
     for i, sample in enumerate(batch):
-        if i == 0:
-            dataset_number = sample["dataset_number"]
 
         # convert to tensor so it can be concatenated
         subject_filenames += [sample["subject_filename"]]
@@ -184,7 +181,6 @@ def sleepnet_collate(batch: list) -> dict:
         "subject_filenames": subject_filenames,
         "load_times": load_times,
         "padding_eliminator": padding_eliminator_tensor,
-        "dataset_number": dataset_number,
     }
 
     t_end = time.perf_counter()
