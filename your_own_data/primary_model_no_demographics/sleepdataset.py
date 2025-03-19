@@ -25,12 +25,11 @@ import h5py as h5
 import numpy as np
 import pandas as pd
 import torch
+from sleep_support import combine_stages, confusion_from_lists, kappa, shm_avail_bytes
+from sleepnet import load_sample_from_file
 from torch import Tensor
 from torch.utils.data import Dataset
 from tqdm import tqdm
-
-from sleep_support import combine_stages, confusion_from_lists, kappa, shm_avail_bytes
-from sleepnet import load_sample_from_file
 
 
 class SleepSubject(object):
@@ -159,17 +158,15 @@ class SleepSubject(object):
             if self.validate_ecg:
                 self.check_ecg_variable(file_h["ecgs"][()])  # type: ignore
 
-            # FIXME: take this bak, or figure out a way to create a stages
-            # tensor if there is none, and to use it if it exists
-            # if self.is_training:
-            # if training, load the actual stages variable
-            stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
-            # else:
-            #     # otherwise, create a dummy stages tensor
-            #     stages_tensor = torch.zeros(
-            #         (file_h["ecgs"].shape[0], 1),  # type: ignore
-            #         dtype=torch.long,
-            #     )
+            if self.is_training:
+                # if training, load the actual stages variable
+                stages_tensor = torch.LongTensor(file_h["stages"][()])  # type: ignore
+            else:
+                # otherwise, create a dummy stages tensor
+                stages_tensor = torch.zeros(
+                    (file_h["ecgs"].shape[0], 1),  # type: ignore
+                    dtype=torch.long,
+                )
 
             self.epoch_count = stages_tensor.shape[0]
             self.target_stages = stages_tensor.squeeze()
