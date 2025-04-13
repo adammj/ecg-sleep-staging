@@ -23,6 +23,7 @@ from typing import Optional, Tuple
 
 import h5py as h5
 import torch
+from sleep_support import check_weights, pad_tensor
 from torch import Tensor
 from torch.nn import (
     AdaptiveAvgPool1d,
@@ -40,8 +41,6 @@ from torch.nn import (
 )
 from torch.nn.init import normal_, xavier_normal_
 
-from sleep_support import check_weights, pad_tensor
-
 
 def load_sample_from_file(file_h: h5.File, is_training: bool = True) -> dict:
     """Load sample from a file. Kept with sleep net, in case there are future changes"""
@@ -52,7 +51,7 @@ def load_sample_from_file(file_h: h5.File, is_training: bool = True) -> dict:
 
     # squeeze demographics, to make cache smaller
     demographics = torch.Tensor(file_h["demographics"][()]).squeeze()  # type: ignore
-    midnight_offset = torch.Tensor(file_h["midnight_offset"][()]).squeeze()  # type: ignore
+    midnight_offset = torch.randn(1)  # load random time (ignore file contents)
 
     # stages was already loaded (or faked) when file was validated
 
