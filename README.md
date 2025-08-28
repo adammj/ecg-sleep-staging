@@ -40,9 +40,9 @@ If you're planning on using your own pipeline, please see the [Requirements](<ht
 
 ### Sleep stage scoring models
 
-#### Primary or Real-Time model
+#### Paper models
 
-There is a folder for each model: `primary` and `real-time`. They are completely self-contained, and, as a consequence, are almost exact duplicates. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
+There is a folder for the two models described in the paper: `primary` and `real-time`. They are completely self-contained, and, as a consequence, are almost exact duplicates. However, the parameters in the `train_params.json` file are set up to sleep score on individual files right away. The code can run with or without a GPU.
 
 To use either model, just run the following from your python environment:
 
@@ -52,15 +52,13 @@ python train.py your_datafile.h5
 
 The `your_datafile.h5` can either be in the same folder, or elsewhere (as long as the complete path is provided). The code will load the appropriate model, check the file, score the sleep, and save a `results.h5` file in the same folder.
 
-#### New primary models
+#### Post-paper models
 
-There are now three new models that are based on the primary model but remove the need for specific inputs. These models were created to allow for use cases where it may to be possible to have all of the inputs.
+There are now three new models that are based on the primary model but remove the need for specific inputs. These models were created to allow for use cases where it may not be possible to have all of the inputs. They were created and trained after the paper was published, and are therefore not discussed in the paper. Their performance is nearly identical to the primary model.
 
 1. **"No Demographics"**: does not require the subject's demographics (age and sex).
 2. **"No Time"**: does not require the time that the recording started (i.e., the `midnight_offset`).
 3. **"Only ECG"**: only requires the recording ECG (i.e., does not require the subject's demographics and does not require the start time of the recording).
-
-These models were created and trained after the paper was published, and are therefore not discussed in the paper. Their performance is nearly identical to the primary model.
 
 ### FYI: description of files inside model folders
 
