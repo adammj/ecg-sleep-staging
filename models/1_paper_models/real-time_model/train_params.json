@@ -21,7 +21,7 @@
   "nesterov": false,
   "dataset_number": "main",
   "all_datasets_folder": "/path/to/recording/files/",
-  "sets_file": "./main_sets.xlsx",
+  "sets_file": "main_sets.xlsx",
   "file_extension": ".h5",
   "weights_file": "",
   "train_set_type": 4,

@@ -280,7 +280,7 @@ class SleepDataset(Dataset):
 
         else:
             # extract the sets file
-            sets_df = pd.read_excel(sets_file)
+            sets_df = pd.read_excel(self.folder + sets_file)
 
             self.filenames: list[str]
             # adjust the set_type to a tuple, if necessary
