@@ -208,7 +208,7 @@ The toolbox and package requirements to run the code are as follows:
 - [2] [Preprint version](<https://doi.org/10.1101/2023.10.13.23297018>)
     - There were some large changes between the preprint and the final, published, version (mainly revolving around adding a large meta-analysis). However, the network and testing set results are the same.
 - [3] [Updated U.S. census benchmark sleep dataset v1.1](<https://doi.org/10.64898/2025.12.27.25343087>)
-    - And update the the benchmark dataset
+    - A minor revision to the benchmark dataset
 
 ---
 
