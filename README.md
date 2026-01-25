@@ -14,7 +14,7 @@ Also, make sure to check out the website, [cardiosomnography.com](https://cardio
 
 1. [Sleep scoring your own data](#sleep-scoring-your-own-data)
 2. [Data file description](#data-file-description)
-3. [U.S. census benchmark dataset](#U.S.-census-benchmark-dataset)
+3. [U.S. census benchmark dataset](#US-census-benchmark-dataset)
 4. [Loss function](#loss-function)
 5. [Paper replication](#paper-replication)
 6. [Using CUDA or CPU or MPS](#using-cuda-or-cpu-or-mps)
