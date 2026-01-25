@@ -14,7 +14,7 @@ Also, make sure to check out the website, [cardiosomnography.com](https://cardio
 
 1. [Sleep scoring your own data](#sleep-scoring-your-own-data)
 2. [Data file description](#data-file-description)
-3. [Benchmark dataset](#benchmark-dataset)
+3. [U.S. census benchmark dataset](#U.S.-census-benchmark-dataset)
 4. [Loss function](#loss-function)
 5. [Paper replication](#paper-replication)
 6. [Using CUDA or CPU or MPS](#using-cuda-or-cpu-or-mps)
@@ -105,7 +105,7 @@ If just performing inference (only scoring data, and not training), then only th
 
 ---
 
-## Benchmark dataset
+## U.S. census benchmark dataset
 
 The study included training, validating, and testing on a dataset of 4,000 recordings that were randomly sampled from five different source studies. Additionally, a held-out study was used to evaluate any study-specific learning. Although I do not have permission to share the source data, they are available at the National Sleep Research Resource (<https://sleepdata.org/>). To facilitate the creation and use of a standardized benchmark (which this field sorely needs), I have provided a listing of all of the file names so that others can train, validate, and test the exact same dataset I used.
 
@@ -113,7 +113,10 @@ And, please, for the sake of proper and valid science, **DO NOT** test against t
 
 ### Benchmark dataset folder:
 
-- `main_sets.xlsx` contains the listing for the train, validation, and testing sets
+- `benchmark_v1.0.xlsx` contains the listing for the train, validation, and testing sets
+  - This is the dataset from the paper [1]
+- `benchmark_v1.1.xlsx` contains the listing for the train, validation, and testing sets
+  - This is an minor revision to the dataset [2]
 - `heldout_set.xlsx` contains the listing for the held-out study
 
 ---
@@ -186,7 +189,7 @@ The CUDA values are reported in Paper (Supplementary Table S7).
 The toolbox and package requirements to run the code are as follows:
 
 - Python
-  - I've provided three different `requirements.txt` files, depending on your needs. These were created with [conda](<https://docs.anaconda.com/miniconda/miniconda-install/>), as this is the package manager I use for the more complex requirements of [PyTorch](<https://pytorch.org/get-started/locally/>). 
+  - I've provided three different `requirements.txt` files, depending on your needs. These were created with [conda](<https://docs.anaconda.com/miniconda/miniconda-install/>), as this is the package manager I use for the more complex requirements of [PyTorch](<https://pytorch.org/get-started/locally/>).
   - If you just want to score sleep using one of the models, then you only need to `requirements_cpu.txt` file. However, if you would like to train the model, or otherwise make use of your GPU, then use `requirements_gpu.txt`. Finally, if you want to reproduce the figures from the paper, use `requirements_paper.txt`.
 - MATLAB (2023a)
   - Parallel Computing Toolbox (7.8)
@@ -200,10 +203,12 @@ The toolbox and package requirements to run the code are as follows:
 
 ## Paper links
 
-- [Published paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>)
+- [1] [Published paper](<https://doi.org/10.1016/j.compbiomed.2024.108545>)
     - Contact details provided on this website and inside the paper.
-- [Preprint version](<https://www.medrxiv.org/content/10.1101/2023.10.13.23297018v1>)
+- [2] [Preprint version](<https://doi.org/10.1101/2023.10.13.23297018>)
     - There were some large changes between the preprint and the final, published, version (mainly revolving around adding a large meta-analysis). However, the network and testing set results are the same.
+- [3] [Updated U.S. census benchmark sleep dataset v1.1](<https://doi.org/10.64898/2025.12.27.25343087>)
+    - And update the the benchmark dataset
 
 ---
 
