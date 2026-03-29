@@ -1,0 +1,49 @@
+{
+    "stage_count": 5,
+    "dense_dropout": 0.2,
+    "cnn_dropout": 0,
+    "tcn_dropout": 0,
+    "ecg_kernel": 31,
+    "ecg_stride": 2,
+    "ecg_layer_count": 6,
+    "ecg_channels_list": [
+        1,
+        5,
+        5
+    ],
+    "ecg_pool_features": 25,
+    "ecg_dense_features": 40,
+    "ecg_batch_norm": [
+        true,
+        true
+    ],
+    "additional_features": 4,
+    "inner_dense_layer_count": 4,
+    "inner_dense_channel_list": [
+        -1,
+        25,
+        25
+    ],
+    "inner_dense_activation_list": [
+        true,
+        true,
+        true
+    ],
+    "tcn_layer_count": 12,
+    "tcn_channel_list": [
+        -1,
+        25,
+        25
+    ],
+    "outer_dense_layer_count": 4,
+    "outer_dense_channel_list": [
+        25,
+        25,
+        -1
+    ],
+    "outer_dense_activation_list": [
+        true,
+        true,
+        true
+    ]
+}
